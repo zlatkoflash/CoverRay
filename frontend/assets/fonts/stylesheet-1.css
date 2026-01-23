@@ -1,0 +1,243 @@
+@font-face {
+    font-family: 'Alex';
+    src: url('Alex.woff2') format('woff2'),
+        url('Alex.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Alex';
+    src: url('Alex.woff2') format('woff2'),
+        url('Alex.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Allan';
+    src: url('Allan-Regular.woff2') format('woff2'),
+        url('Allan-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url('Amaranth-Bold.woff2') format('woff2'),
+        url('Amaranth-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aclonica';
+    src: url('Aclonica-Regular.woff2') format('woff2'),
+        url('Aclonica-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Allan';
+    src: url('Allan-Bold.woff2') format('woff2'),
+        url('Allan-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Baloo Da';
+    src: url('BalooDa.woff2') format('woff2'),
+        url('BalooDa.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-Light.woff2') format('woff2'),
+        url('Averia-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-LightItalic.woff2') format('woff2'),
+        url('Averia-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-Regular.woff2') format('woff2'),
+        url('Averia-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url('Amaranth-Regular.woff2') format('woff2'),
+        url('Amaranth-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Baloo Bhai';
+    src: url('BalooBhai.woff2') format('woff2'),
+        url('BalooBhai.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url('Amaranth-Italic.woff2') format('woff2'),
+        url('Amaranth-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooPaaji';
+    src: url('BalooPaaji.woff2') format('woff2'),
+        url('BalooPaaji.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-Gruesa.woff2') format('woff2'),
+        url('Averia-Gruesa.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Baloo';
+    src: url('Baloo.woff2') format('woff2'),
+        url('Baloo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amaranth';
+    src: url('Amaranth-BoldItalic.woff2') format('woff2'),
+        url('Amaranth-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-BoldItalic.woff2') format('woff2'),
+        url('Averia-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaijaan';
+    src: url('BalooBhaijaan.woff2') format('woff2'),
+        url('BalooBhaijaan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina';
+    src: url('BalooBhaina.woff2') format('woff2'),
+        url('BalooBhaina.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-Italic.woff2') format('woff2'),
+        url('Averia-Italic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooChettan';
+    src: url('BalooChettan.woff2') format('woff2'),
+        url('BalooChettan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averia';
+    src: url('Averia-Bold.woff2') format('woff2'),
+        url('Averia-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooTamma';
+    src: url('BalooTamma.woff2') format('woff2'),
+        url('BalooTamma.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooTammudu';
+    src: url('BalooTammudu.woff2') format('woff2'),
+        url('BalooTammudu.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooThambi';
+    src: url('BalooThambi.woff2') format('woff2'),
+        url('BalooThambi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Barrio';
+    src: url('Barrio-Regular.woff2') format('woff2'),
+        url('Barrio-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

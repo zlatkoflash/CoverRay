@@ -1,0 +1,162 @@
+@font-face {
+    font-family: 'Cinzel Decorative';
+    src: url('CinzelDecorative-Black.woff2') format('woff2'),
+        url('CinzelDecorative-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fjord';
+    src: url('Fjord-One.woff2') format('woff2'),
+        url('Fjord-One.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cuprum';
+    src: url('Cuprum-Bold.woff2') format('woff2'),
+        url('Cuprum-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gupter';
+    src: url('Gupter-Medium.woff2') format('woff2'),
+        url('Gupter-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('Cinzel-Bold.woff2') format('woff2'),
+        url('Cinzel-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel Decorative';
+    src: url('CinzelDecorative-Regular.woff2') format('woff2'),
+        url('CinzelDecorative-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'CuprumFFU';
+    src: url('CuprumFFU.woff2') format('woff2'),
+        url('CuprumFFU.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Limelight';
+    src: url('Limelight.woff2') format('woff2'),
+        url('Limelight.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('Cinzel-Regular.woff2') format('woff2'),
+        url('Cinzel-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cookie';
+    src: url('Cookie-Regular.woff2') format('woff2'),
+        url('Cookie-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel Decorative';
+    src: url('CinzelDecorative-Bold.woff2') format('woff2'),
+        url('CinzelDecorative-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gupter';
+    src: url('Gupter-Bold.woff2') format('woff2'),
+        url('Gupter-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gupter';
+    src: url('Gupter-Regular.woff2') format('woff2'),
+        url('Gupter-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cuprum';
+    src: url('Cuprum-Regular.woff2') format('woff2'),
+        url('Cuprum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('Cinzel-Black.woff2') format('woff2'),
+        url('Cinzel-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cuprum';
+    src: url('Cuprum-Italic.woff2') format('woff2'),
+        url('Cuprum-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cuprum';
+    src: url('Cuprum-BoldItalic.woff2') format('woff2'),
+        url('Cuprum-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('Cairo.woff2') format('woff2'),
+        url('Cairo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
