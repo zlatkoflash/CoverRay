@@ -16,10 +16,12 @@ import { GetKonvaBlob, getKonvaPDF } from "@/components/Editor/utils/KonvaScript
 
 export default function BtnSaveForPaymentPurposes() {
 
-  const items = useSelector((state: RootState) => state.editor.items);
+  const stateEditor = useSelector((state: RootState) => state.editor);
+  // const items = stateEditor.items;
+  const konvaData = stateEditor.konvaData;
   const template = useSelector((state: RootState) => state.template.selectedTemplate);
-  const imageCoverURL = useSelector((state: RootState) => state.editor.imageUrl);
-  const view = useSelector((state: RootState) => state.editor.view);
+  const imageCoverURL = stateEditor.imageUrl;
+  const view = stateEditor.view;
 
   const [temporaryImageUrl, setTemporaryImageUrl] = useState<string>("");
 
@@ -56,8 +58,8 @@ export default function BtnSaveForPaymentPurposes() {
      */
     // console.log("thumbnailDataUrl:", thumbnailDataUrl);
     const detailsForSaving = {
-      edited_template_items: items,
-      template: template as ITemplate,
+      konvaData: konvaData,
+      templateDB: template as ITemplate,
       coverImageURL: imageCoverURL as string,
       thumbnailDataUrl: generatedThumbnailUrl
     } as IEditedTemplateForSave;

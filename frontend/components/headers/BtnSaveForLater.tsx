@@ -9,13 +9,21 @@ import { useSelector } from "react-redux";
 import { GetKonvaBlob, getKonvaPDF } from "../Editor/utils/KonvaScripts";
 import jsPDF from "jspdf";
 import { POSTER_H, POSTER_W } from "@/utils/editor";
+import TemplateVersionsControl from "./BntSaveForLaterTools/TemplateVersionsControl";
+import ZSelectDropdown from "../inputs/ZSelectDropdown";
+import BtnAdministratorSaveDraft from "./BntSaveForLaterTools/BtnAdministratorSaveDraft";
+import { IKonvaTemplate } from "@/utils/interfaceTemplate";
+import DropdownWithTheVersions from "./BntSaveForLaterTools/DropdownWithTheVersions";
+import BtnPublishActualVersion from "./BntSaveForLaterTools/BtnPublishActualVersion";
 
 export default function BtnSaveForLater() {
 
   const [isSaved, setIsSaved] = useState(false);
+  const stateAuth = useSelector((state: RootState) => state.auth);
+
   const stateEditor = useSelector((state: RootState) => state.editor);
   const stateTemplate = useSelector((state: RootState) => state.template);
-  const items = stateEditor.items;
+  // const items = stateEditor.items;
   const template = stateTemplate.selectedTemplate;
   const imageCoverURL = stateEditor.imageUrl;
   const view = stateEditor.view;
@@ -23,8 +31,10 @@ export default function BtnSaveForLater() {
   const ___SaveTheTemplate = async () => {
     console.log("saveTheTemplate():");
     const detailsForSaving = {
-      edited_template_items: items,
-      template: template as ITemplate,
+      // edited_template_items: items,
+      konvaData: stateEditor.konvaData as IKonvaTemplate,
+      templateDB: template as ITemplate,
+      // templateDB: templateDB as ITemplate,
       coverImageURL: imageCoverURL as string,
       thumbnailDataUrl: null
     };
@@ -76,19 +86,41 @@ export default function BtnSaveForLater() {
 
         ___DownloadTestImage();
 
-      }}>💾 Download Test Image</button>
+      }}>💾 Image</button>
       <button className="btn btn-secondary" onClick={() => {
         console.log("saveForLater():");
 
         ___DownloadTestPDF();
 
-      }}>💾 Download PDF Test</button>
-      <button className="btn btn-secondary" onClick={() => {
-        console.log("saveForLater():");
+      }}>💾 PDF</button>
 
-        ___SaveTheTemplate();
+      {
+        template && stateAuth.user?.role === "administrator" && <TemplateVersionsControl />
+      }
 
-      }}>💾 Save for Later</button>
+
+      {
+        /*<ZSelectDropdown
+        dropdownStyle="for-forms"
+        onSelect={(value) => {
+          console.log("value:", value);
+        }}
+        options={[
+          { value: "", label: "Live Template" },
+          { value: "2", label: "Draft Template" },
+          { value: "3", label: "Version 1" },
+        ]}
+        label="Select Version"
+        selectedValue={templateDraftVersionOrPublic}
+        
+      />*/
+      }
+      <DropdownWithTheVersions />
+
+
+      <BtnAdministratorSaveDraft />
+      <BtnPublishActualVersion />
+
     </>
   );
 }

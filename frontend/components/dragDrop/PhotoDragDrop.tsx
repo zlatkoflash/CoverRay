@@ -1,6 +1,9 @@
 "use client";
 import { LS_GetData, LS_KEY_IMAGE_URL, LS_SaveData } from "@/utils/editor-local-storage";
-import { UploadFile } from "@/utils/files";
+import {
+  // UploadFile 
+
+} from "@/utils/files";
 import { useState, useRef, useEffect } from "react";
 
 export default function PhotoDragDrop(
@@ -9,6 +12,35 @@ export default function PhotoDragDrop(
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [temporaryFileAttachedURL, setTemporaryFileAttachedURL] = useState<string | null>(null);
+
+  const UploadFile = async (
+    file: File,
+    folder: string,
+    custom_ref: string,
+    auth: "authorize" | "not-authorize",
+    metadata: any
+  ) => {
+
+    console.log("Temporary UploadFile is this, in case you see this it means the functions is not completed, is missing, or the component and the related page of it should be deleted, maybe is old, please check good.");
+
+    /*const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder", folder);
+    formData.append("custom_ref", custom_ref);
+    formData.append("metadata", JSON.stringify(metadata));
+
+    const response = await fetch("http://localhost:3000/api/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+
+    const data = await response.json();
+    return data;*/
+    return {} as any;
+  }
 
   useEffect(() => {
     const savedImageUrl = LS_GetData(LS_KEY_IMAGE_URL);

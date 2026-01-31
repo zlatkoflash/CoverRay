@@ -9,6 +9,15 @@ import EditorTextStyle from "./EditorTextStyle";
 import EditorColor from "./EditorColor";
 import EditorTextSize from "./EditorTextSize";
 import EditorFontsSelector from "./EditorFontsSelector";
+import EditorLockDraggable from "./ToolsAdministrator/EditorLockDraggable";
+import EditorTextLineHeight from "./ToolsAdministrator/TextEditorsMore/EditorTextLineHeight";
+import EditorSizeOfTheComponent from "./ToolsAdministrator/EditorSizeOfTheComponent";
+import EditorTextAlign from "./ToolsAdministrator/TextEditorsMore/EditorTextAlign";
+import EditorTextLetterSpacing from "./ToolsAdministrator/TextEditorsMore/EditorTextLetterSpacing";
+import EditorObjectStacking from "./ToolsAdministrator/EditorObjectStacking";
+import ImageEditorChangeTheImage from "./ToolsAdministrator/ImageEditorMore/ImageEditorChangeTheImage";
+import AddRemoveItem from "./ToolsAdministrator/AddRemoveItem";
+// import EditorAllowEdit from "./ToolsAdministrator/EditorAllowEdit";
 
 
 
@@ -80,6 +89,11 @@ export default function EditorSidebar() {
 
   const selectedKonvaItem = useSelector((state: RootState) => state.editor.selectedKonvaItem);
 
+  const authState = useSelector((state: RootState) => state.auth);
+  const user = authState.user;
+
+  console.log("auth user: ", user);
+
   return (
     <>
       <aside className="editor-panel">
@@ -98,6 +112,28 @@ export default function EditorSidebar() {
           <p className="panel-subtitle">Changes appear instantly on preview</p>
         </div>
 
+
+
+
+        {
+          user !== null && user.user_metadata.role === "administrator" &&
+          <>
+            <AddRemoveItem />
+            <EditorLockDraggable />
+            {
+              // <EditorAllowEdit />
+            }
+
+            <EditorSizeOfTheComponent />
+            <EditorObjectStacking />
+          </>
+        }
+
+        {
+          selectedKonvaItem !== null && selectedKonvaItem.type === "image" &&
+          <ImageEditorChangeTheImage />
+        }
+
         {
           selectedKonvaItem !== null && selectedKonvaItem.type === "text" &&
           <EditorTextInput />
@@ -112,6 +148,14 @@ export default function EditorSidebar() {
           selectedKonvaItem !== null && selectedKonvaItem.type === "text" &&
           <EditorTextStyle />
         }
+        {
+          selectedKonvaItem !== null
+          && selectedKonvaItem.type === "text"
+          && user !== null
+          && user.user_metadata.role === "administrator"
+          &&
+          <EditorTextAlign />
+        }
 
         {
           selectedKonvaItem !== null && selectedKonvaItem.type === "text" &&
@@ -121,6 +165,18 @@ export default function EditorSidebar() {
         {
           selectedKonvaItem !== null && selectedKonvaItem.type === "text" &&
           <EditorTextSize />
+        }
+
+        {
+          selectedKonvaItem !== null
+          && selectedKonvaItem.type === "text"
+          && user !== null
+          && user.user_metadata.role === "administrator"
+          &&
+          <>
+            <EditorTextLineHeight />
+            <EditorTextLetterSpacing />
+          </>
         }
 
 

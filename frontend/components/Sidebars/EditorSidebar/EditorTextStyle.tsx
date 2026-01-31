@@ -1,12 +1,20 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { CanvasItemText, updateItem } from "@/lib/features/editor/editorSlice";
+import {
+  // CanvasItemText, 
+  updateItem
+} from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
+import { IKonvaTemplateTextItem } from "@/utils/interfaceTemplate";
 
 export default function EditorTextStyle() {
+  // const a: IKonvaTemplateTextItem
   const dispatch = useDispatch();
-  const selectedItem = useSelector((state: RootState) => state.editor.selectedKonvaItem) as CanvasItemText;
+  const selectedItem = useSelector((state: RootState) => state.editor.selectedKonvaItem) as IKonvaTemplateTextItem
+    // as CanvasItemText
+
+    ;
 
   if (!selectedItem) return null;
 

@@ -6,32 +6,74 @@ import { POSTER_H, POSTER_W } from '@/utils/editor';
 import { LS_GetData, LS_KEY_IMAGE_URL } from '@/utils/editor-local-storage';
 // import { RootState } from '@reduxjs/toolkit/query';
 import React, { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Rect, Text, Transformer, Group, Image as KonvaImage } from 'react-konva';
+import { Stage, Layer, Rect, Text, Transformer, Group, Image as KonvaImage, Image } from 'react-konva';
 import { useDispatch, useSelector } from 'react-redux';
 import EventsForZoomingAndPanning from './EventsForZoomingAndPanning';
 import Konva from 'konva';
+import { IKonvaBaseCanvasItem } from '@/utils/interfaceTemplate';
+import ZKonvaTextComponent from './Elements/ZKonvaTextComponent';
+import ZKonvaImageComponent from './Elements/ZKonvaImageComponent';
 
 // Sub-component to handle "Background Cover" logic
-const BackgroundCover = ({ url, targetWidth, targetHeight }: any) => {
+const BackgroundCover = ({ url, targetWidth, targetHeight, opacity = 1, onMouseDown, fillType = "cover" }: {
+  url: string;
+  targetWidth: number;
+  targetHeight: number;
+  opacity?: number;
+  onMouseDown?: (e: any) => void;
+  fillType?: "cover" | "contain" | "stretch" | "tile";
+}) => {
   const [img, setImg] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
     if (!url) return;
     const image = new window.Image();
     image.src = url;
+    image.crossOrigin = "Anonymous";
     image.onload = () => setImg(image);
   }, [url]);
 
   if (!img) return null;
 
   // Calculate "Cover" scaling
-  const scale = Math.max(targetWidth / img.width, targetHeight / img.height);
-  const width = img.width * scale;
-  const height = img.height * scale;
+  let scale = Math.max(targetWidth / img.width, targetHeight / img.height);
+  let width = img.width * scale;
+  let height = img.height * scale;
 
   // Center the image inside the crop area
-  const x = (targetWidth - width) / 2;
-  const y = (targetHeight - height) / 2;
+  let x = (targetWidth - width) / 2;
+  let y = (targetHeight - height) / 2;
+
+  switch (fillType) {
+    case "cover":
+      scale = Math.max(targetWidth / img.width, targetHeight / img.height);
+      width = img.width * scale;
+      height = img.height * scale;
+      x = (targetWidth - width) / 2;
+      y = (targetHeight - height) / 2;
+      break;
+    case "contain":
+      scale = Math.min(targetWidth / img.width, targetHeight / img.height);
+      width = img.width * scale;
+      height = img.height * scale;
+      x = (targetWidth - width) / 2;
+      y = (targetHeight - height) / 2;
+      break;
+    case "stretch":
+      scale = 1;
+      width = targetWidth;
+      height = targetHeight;
+      x = 0;
+      y = 0;
+      break;
+    case "tile":
+      scale = 1;
+      width = img.width;
+      height = img.height;
+      x = 0;
+      y = 0;
+      break;
+  }
 
   return (
     <Group clipX={0} clipY={0} clipWidth={targetWidth} clipHeight={targetHeight}>
@@ -41,6 +83,7 @@ const BackgroundCover = ({ url, targetWidth, targetHeight }: any) => {
         y={y}
         width={width}
         height={height}
+        opacity={opacity}
       />
     </Group>
   );
@@ -74,17 +117,28 @@ export default function KonvaStage({
   const dispatch = useDispatch<AppDispatch>();
 
   // 1. Read the current image from Redux
-  const coverURL = useSelector((state: RootState) => state.editor.imageUrl);
-  const status = useSelector((state: RootState) => state.editor.status);
-  const selectedKonvaItem = useSelector((state: RootState) => state.editor.selectedKonvaItem);
-  const items = useSelector((state: RootState) => state.editor.items);
-  const view = useSelector((state: RootState) => state.editor.view);
+  const templateState = useSelector((state: RootState) => state.template);
+  const templateDB = templateState.selectedTemplate;
+  const stateAuth = useSelector((state: RootState) => state.auth);
+  const user = stateAuth.user;
+  const stateEditor = useSelector((state: RootState) => state.editor);
+  // const template = stateEditor.template;
+  const konvaData = stateEditor.konvaData;
+  // const templateDB = stateEditor.templ;
+  const coverURL = stateEditor.imageUrl;
+  const status = stateEditor.status;
+  const selectedKonvaItem = stateEditor.selectedKonvaItem;
+  // const items = stateEditor.items;
+  let items: IKonvaBaseCanvasItem[] = [];
+  try {
+    items = konvaData?.pages[0].children || [];
+  } catch (e) {
+    console.log("KonvaStage :: stateEditor.konvaData", e);
+  }
+  const view = stateEditor.view;
 
 
   console.log("KonvaStage items:", items);
-
-  /*const centerX = (dimensions.width / 2) - (POSTER_W * view.scale) / 2;
-  const centerY = (dimensions.height / 2) - (POSTER_H * view.scale) / 2;*/
 
   useEffect(() => {
     if (
@@ -98,35 +152,91 @@ export default function KonvaStage({
     }
   }, [selectedKonvaItem, items, view.scale]);
 
-  useEffect(() => {
-    // console.log("LS_GetData(LS_KEY_IMAGE_URL):", LS_GetData(LS_KEY_IMAGE_URL));
-    // setCoverURL(LS_GetData(LS_KEY_IMAGE_URL));
-  }, []);
 
-  /*const handleWheel = (e: any) => {
-    if (e.evt.ctrlKey || e.evt.metaKey) {
-      e.evt.preventDefault();
-      const delta = e.evt.deltaY > 0 ? -0.1 : 0.1;
-      const newScale = Math.min(Math.max(0.1, view.scale + delta), 3);
-      dispatch(EditorActions.setScale(newScale));
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedKonvaItem || e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      const directions: Record<string, 'up' | 'down' | 'left' | 'right'> = {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
+      };
+
+      const MovePerKeyPress = 1;
+
+      let changes = {};
+      if (directions[e.key] === "down") {
+        changes = {
+          y: selectedKonvaItem.y + MovePerKeyPress
+        }
+      }
+      else if (directions[e.key] === "up") {
+        changes = {
+          y: selectedKonvaItem.y - MovePerKeyPress
+        }
+      }
+      else if (directions[e.key] === "left") {
+        changes = {
+          x: selectedKonvaItem.x - MovePerKeyPress
+        }
+      }
+      else if (directions[e.key] === "right") {
+        changes = {
+          x: selectedKonvaItem.x + MovePerKeyPress
+        }
+      }
+      else {
+        return;
+      }
+
+      e.preventDefault();
+      dispatch(EditorActions.updateItem({
+        id: selectedKonvaItem.id,
+        changes: changes,
+        addToHistory: false
+      }));
+
+    };
+
+
+
+    window.addEventListener("keydown", handleKeyDown);
+    // window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      // window.removeEventListener("keyup", handleKeyUp);
     }
-  };*/
+  }, [
+    selectedKonvaItem?.id,
+    selectedKonvaItem?.x,
+    selectedKonvaItem?.y,
+    dispatch
+
+  ]); // Only re-run if the SELECTED ID changes
+
+
+  if (konvaData === null) {
+    return null;
+  }
 
   return (
     <>
       <Stage
         className='konvajs-content-holder'
-        /*style={{
-          "--zoom": view.scale,
-        "--scroll-x": `${view.x}px`,
-        "--scroll-y": `${view.y}px`
-      } as React.CSSProperties}*/
+
         width={dimensions.width}
         height={dimensions.height}
-        // scaleX={2}
-        // scaleY={2}
+
         ref={stageRef}
         // onWheel={handleWheel}
+
+        style={{
+          // on start we hide .konvajs-content-holder, on first resize we show inside <EventsForZoomingAndPanning />, this way i prevent the glitch of the canvas and resize on initial mount
+          display: "none"
+        }}
         onMouseDown={(e) => {
           if (e.target === e.target.getStage()) {
 
@@ -136,7 +246,10 @@ export default function KonvaStage({
           // console.log("Stage onMouseDown:: e.target:", e?.target);
         }}
       >
-        <EventsForZoomingAndPanning stageRef={stageRef} />
+        {
+          <EventsForZoomingAndPanning stageRef={stageRef} />
+        }
+
         {
           // <EditorCanvasHistoryHydrating />
         }
@@ -186,49 +299,39 @@ export default function KonvaStage({
               />
             )}
 
-            {/* 3. Poster Border (Always on top of background) */}
             {
-              /*<Rect
-              width={POSTER_W}
-              height={POSTER_H}
-              fill="transparent"
-              stroke="black"
-              strokeWidth={4}
-              listening={false} // Prevents border from stealing clicks from text
-            />*/
+              templateDB !== null && templateDB.catalog_image !== "" &&
+              <BackgroundCover
+                url={templateDB.catalog_image}
+                targetWidth={POSTER_W}
+                targetHeight={POSTER_H}
+                opacity={0.5}
+                fillType="stretch"
+                onMouseDown={(e: any) => {
+                  console.log("Cover onMouseDown");
+                  // setSelectedId(null);
+                  dispatch(EditorActions.setselectedKonvaItem(null));
+                }}
+              />
             }
 
+
+
             {/* 4. Draggable Elements */}
-            {items.map((item: any) => {
+            {items?.map((item: any) => {
+
+              const draggable = (user !== null && user.role === "administrator");
+              console.log("item.type::", item.type);
+
               if (item.type === 'text')
-                return <Text
-                  key={`item-${item.id}`}
-                  id={item.id}
-                  {...item}
-                  draggable={false}
-                  onClick={() => {
-                    // setSelectedId(item.id);
-                    dispatch(EditorActions.setselectedKonvaItem(item));
-                  }}
-                  onDragEnd={(e) => {
-                    /*const updated = items.map((i: any) =>
-                      i.id === item.id ? { ...i, x: e.target.x(), y: e.target.y() } : i
-                    );*/
-                    const updatedItem = items.find((i: any) => i.id === item.id);
-                    if (updatedItem) {
-                      // updatedItem.x = e.target.x();
-                      // updatedItem.y = e.target.y();
-                      // setItems(updated);
-                      dispatch(EditorActions.updatePosition(
-                        {
-                          id: updatedItem.id,
-                          x: e.target.x(),
-                          y: e.target.y()
-                        }
-                      ));
-                    }
-                  }}
-                />
+
+                return <ZKonvaTextComponent key={`item-${item.id}`} item={item} items={items} />
+              else if (item.type === "image") {
+                console.log("Image element:", item);
+
+                return <ZKonvaImageComponent key={`item-${item.id}`} item={item} items={items} />
+              }
+
               return null;
             })}
             {
@@ -252,8 +355,8 @@ export default function KonvaStage({
                 backgroundFill="rgba(59, 130, 246, 0.7)"
                 fill="rgba(59, 130, 246, 0.7)"
                 anchorFill="rgba(59, 130, 246, 0.7)"
-                padding={10}
-                anchorCornerRadius={40}
+              // padding={10}
+              // anchorCornerRadius={40}
               />}
           </Group>
 

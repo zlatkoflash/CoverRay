@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import { createClient } from "@/utils/supabase";
 import { LogIn } from "lucide-react";
 import { authActions } from "@/lib/features/auth/authSlice";
-import BtnSaveForPaymentPurposesWrap from "@/app/Editor/Template/[template_slug]/BtnSaveForPaymentPurposesWrap";
+import { IKonvaBaseCanvasItem } from "@/utils/interfaceTemplate";
 
 const BtnSaveForLater = dynamic(
   () => import('./BtnSaveForLater'),
@@ -20,7 +20,7 @@ const BtnSaveForLater = dynamic(
 );
 
 
-export default function Header(
+export default function HeaderAdministrator(
   { continueLink, customContinueButton }:
     { continueLink?: string, customContinueButton?: React.ReactNode }) {
 
@@ -31,10 +31,18 @@ export default function Header(
   const dispatch = useDispatch();
   const authState = useSelector((state: RootState) => state.auth);
 
+  const editorState = useSelector((state: RootState) => state.editor);
+
   const selectedTemplate = useSelector((state: RootState) => state.template.selectedTemplate);
-  // const continueButtonDisabled = useSelector((state: RootState) => state.template.ContinueButttonDisabled);
+  const continueButtonDisabled = useSelector((state: RootState) => state.template.ContinueButttonDisabled);
   // const items = useSelector((state: RootState) => state.editor.items);
-  // const items = useSelector((state: RootState) => state.editor.konvaData?.pages[0].children);
+  console.log("HeaderAdministrator :: editorState", editorState);
+  let items: IKonvaBaseCanvasItem[] = [];
+  try {
+    items = editorState.konvaData?.pages[0].children || [];
+  } catch (e) {
+    console.log("HeaderAdministrator :: editorState", e);
+  }
 
   const pathname = usePathname();
 
@@ -86,7 +94,8 @@ export default function Header(
               <span>Editor</span>
             </Link>
 
-            <Link
+            {
+              /*<Link
               style={{
                 pointerEvents: "none"
               }}
@@ -95,12 +104,13 @@ export default function Header(
               }}>
               <div className="nav-step-number">3</div>
               <span>Checkout</span>
-            </Link>
+            </Link>*/
+            }
           </nav>
         </div>
         <div className="header-right">
           {
-            // isTemplateEditor && items.length > 0 && <BtnSaveForLater />
+            isTemplateEditor /*&& items !== undefined && items.length > 0*/ && <BtnSaveForLater />
           }
           {
             /*<button className="btn btn-primary" id="headerCTA" onClick={() => {
@@ -111,7 +121,7 @@ export default function Header(
           {
             // here customContinueButton come from out
             // customContinueButton !== undefined && customContinueButton
-            isTemplateEditor ? <BtnSaveForPaymentPurposesWrap /> : <Link href={_continueLink()}
+            isTemplateEditor ? null : <Link href={_continueLink()}
               className={`btn btn-primary `} id="headerCTA" onClick={() => {
                 console.log("nextStep()");
               }}
@@ -122,21 +132,6 @@ export default function Header(
             >
               Continue →
             </Link>
-          }
-          {
-            // when we have custom button customContinueButton, we don't show 
-            /*<Link href={_continueLink()} 
-            customContinueButton === undefined && <Link href={_continueLink()}
-              className={`btn btn-primary `} id="headerCTA" onClick={() => {
-                console.log("nextStep()");
-              }}
-              style={{
-                pointerEvents: selectedTemplate == null ? "none" : "auto",
-                opacity: selectedTemplate == null ? 0.5 : 1,
-              }}
-            >
-              Continue →
-            </Link> */
           }
 
           {

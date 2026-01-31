@@ -3,15 +3,23 @@
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-import { CanvasItemText, EditorActions } from "@/lib/features/editor/editorSlice";
+import {
+  // CanvasItemText, 
+  // IKonvaTemplateTextItem,
+  EditorActions
+
+} from "@/lib/features/editor/editorSlice";
+import { IKonvaTemplateTextItem } from "@/utils/interfaceTemplate";
 
 export default function EditorTextInput() {
   const dispatch = useDispatch();
-
   // 1. Get the current selection
-  const selectedKonvaItem = useSelector(
+  /*const selectedKonvaItem = useSelector(
     (state: RootState) => state.editor.selectedKonvaItem
-  ) as CanvasItemText | null;
+  ) as IKonvaTemplateTextItem | null;*/
+  const selectedKonvaItem = useSelector((state: RootState) => state.editor.selectedKonvaItem);
+  const selectedKonvaItemText = selectedKonvaItem as IKonvaTemplateTextItem;
+  // as CanvasItemText | null
 
   // 2. Capture the text state when the user starts typing to compare later
   const originalTextRef = useRef<string>("");
@@ -24,7 +32,7 @@ export default function EditorTextInput() {
 
   const handleFocus = () => {
     // Save the starting text value
-    originalTextRef.current = selectedKonvaItem.text || "";
+    originalTextRef.current = selectedKonvaItemText.text || "";
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,13 +77,13 @@ export default function EditorTextInput() {
           className="form-input min-h-[100px] resize-none"
           id="headlineInput"
           rows={4}
-          value={selectedKonvaItem.text || ""}
+          value={selectedKonvaItemText.text || ""}
           onFocus={handleFocus}
           onChange={handleChange}
           onBlur={handleBlur}
         />
         <div className="char-count mt-1" style={{ fontSize: '12px', opacity: 0.8 }}>
-          {selectedKonvaItem.text?.length || 0} characters — ✓ Perfect length
+          {selectedKonvaItemText.text?.length || 0} characters — ✓ Perfect length
         </div>
       </div>
     </div>

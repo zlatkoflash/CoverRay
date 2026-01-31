@@ -1,13 +1,14 @@
+import { ISupabaseUser } from "@/utils/interfaceSupabase";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
-  user: {
+  user: ISupabaseUser /*{
     id: string;
     email: string;
     name: string;
-    role: string;
+    role: "administrator" | "client";
 
-  } | null,
+  }*/ | null,
   // token: string,
 
   modalSignInOpen: boolean,
@@ -18,6 +19,9 @@ export interface IAuthState {
 
   signupProcessingStatus: "idle" | "processing" | "success" | "failed" | "error";
   signupProcessingMessage: string;
+
+  modalIntentAfterSignIn: "CHECKOUT" | "SUBSCRIPTION",
+  modalIntentAfterSignUp: "CHECKOUT" | "SUBSCRIPTION",
 }
 
 
@@ -27,6 +31,9 @@ const initialState: IAuthState = {
 
   modalSignInOpen: false,
   modalSignUpOpen: false,
+
+  modalIntentAfterSignIn: "SUBSCRIPTION",
+  modalIntentAfterSignUp: "SUBSCRIPTION",
 
   logingProcessingStatus: "idle",
   logingProcessingMessage: "",
@@ -47,11 +54,13 @@ export const authSlice = createSlice({
       state.token = action.payload;
     },*/
 
-    setModalSignInOpen: (state, action: PayloadAction<boolean>) => {
-      state.modalSignInOpen = action.payload;
+    setModalSignInOpen: (state, action: PayloadAction<{ open: boolean, intentAfterSignIn: "CHECKOUT" | "SUBSCRIPTION" }>) => {
+      state.modalSignInOpen = action.payload.open;
+      state.modalIntentAfterSignIn = action.payload.intentAfterSignIn;
     },
-    setModalSignUpOpen: (state, action: PayloadAction<boolean>) => {
-      state.modalSignUpOpen = action.payload;
+    setModalSignUpOpen: (state, action: PayloadAction<{ open: boolean, intentAfterSignUp: "CHECKOUT" | "SUBSCRIPTION" }>) => {
+      state.modalSignUpOpen = action.payload.open;
+      state.modalIntentAfterSignUp = action.payload.intentAfterSignUp;
     },
 
     setLogingProcessingStatus: (state, action: PayloadAction<IAuthState['logingProcessingStatus']>) => {

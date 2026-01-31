@@ -16,6 +16,7 @@ import AuthWatcher from "@/components/auth/AuthWatcher";
 import ModalCardPayment from "@/components/Modals/Shop/ModalCardPayment";
 import ModalCardPaymentStripeElementsWrap from "@/components/Modals/Shop/ModalCardPaymentStripeElementsWrap";
 import ModalOrderSuccess from "@/components/Modals/Shop/ModalOrderSuccess";
+import { DeviceProvider } from "@/Providers/DeviceProvider";
 
 /*const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,14 +62,16 @@ export default function RootLayout({
       >
         <StoreProvider>
 
-          <AuthWatcher />
+          <DeviceProvider>
+            <AuthWatcher />
 
-          {children}
+            {children}
 
-          <ModalSignIn />
-          <ModalSignUp />
-          <ModalCardPaymentStripeElementsWrap />
-          <ModalOrderSuccess />
+            <ModalSignIn />
+            <ModalSignUp />
+            <ModalCardPaymentStripeElementsWrap />
+            <ModalOrderSuccess />
+          </DeviceProvider>
 
         </StoreProvider>
       </body>

@@ -95,7 +95,13 @@ export const LS_SaveTemplateIntoIndexDB = async (
 
   console.log("editedTemplate for saving:", editedTemplate);
 
-  const finalIndexRefForIndexDB = `${INDEX_DB_TEMPLATE_EDITED_REF_}${custom_ref !== "" ? custom_ref : editedTemplate.template.slug}`;
+  const finalIndexRefForIndexDB = `${INDEX_DB_TEMPLATE_EDITED_REF_}${custom_ref !== "" ?
+    custom_ref
+    :
+    // editedTemplate.template.slug
+    editedTemplate.templateDB.slug
+
+    }`;
   // if (custom_ref !== "") finalIndexRefForIndexDB = custom_ref;
 
   try {

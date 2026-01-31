@@ -34,8 +34,10 @@ export default function ModalSignUp() {
     console.log("details:", details);
     if (details.ok) {
       dispatch(authActions.setSignupProcessingStatus("success"));
-      dispatch(authActions.setModalSignUpOpen(false));
-      dispatch(shopActions.setShowModalCardPayment(true));
+      dispatch(authActions.setModalSignUpOpen({
+        open: false,
+        intentAfterSignUp: authState.modalIntentAfterSignUp
+      }));
       clientSupabase.auth.setSession(
         {
           access_token: details.data.session.access_token,
@@ -43,6 +45,9 @@ export default function ModalSignUp() {
           // user: details.data.user
         }
       );
+      if (authState.modalIntentAfterSignUp === "CHECKOUT") {
+        dispatch(shopActions.setShowModalCardPayment(true));
+      }
       router.refresh();
     }
     else {
@@ -54,7 +59,12 @@ export default function ModalSignUp() {
   return (
     <div className={`modal-overlay ${authState.modalSignUpOpen ? "visible" : ""}`} id="accountModal">
 
-      <div className="click-for-closing-area" style={{ zIndex: -1, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'transparent' }} onClick={() => { dispatch(authActions.setModalSignInOpen(false)) }}></div>
+      <div className="click-for-closing-area" style={{ zIndex: -1, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'transparent' }} onClick={() => {
+        dispatch(authActions.setModalSignInOpen({
+          open: false,
+          intentAfterSignIn: authState.modalIntentAfterSignIn
+        }))
+      }}></div>
 
       <div className="modal-content">
         <div className="modal-icon account">👤</div>
@@ -101,8 +111,14 @@ export default function ModalSignUp() {
           }
           <div className="divider-text">Already have an account?</div>
           <button className="modal-btn secondary" onClick={() => {
-            dispatch(authActions.setModalSignInOpen(true));
-            dispatch(authActions.setModalSignUpOpen(false));
+            dispatch(authActions.setModalSignInOpen({
+              open: true,
+              intentAfterSignIn: authState.modalIntentAfterSignIn
+            }));
+            dispatch(authActions.setModalSignUpOpen({
+              open: false,
+              intentAfterSignUp: authState.modalIntentAfterSignUp
+            }));
           }}>Sign In</button>
         </div>
       </div>

@@ -1,9 +1,10 @@
 import { LS_GetImageURL, LS_SaveImageIntoIndexDB } from '@/utils/editor-local-storage';
 import { ITemplate } from '@/utils/interfaceDatabase';
+import { IKonvaBaseCanvasItem, IKonvaTemplate, IKonvaTemplateImageItem, IKonvaTemplateTextItem } from '@/utils/interfaceTemplate';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // 1. Expanded types to handle multiple items
-export interface CanvasItem {
+/*export interface CanvasItem {
   id: string; // Crucial for identifying which input matches which Konva text
   content: string;
   color: string;
@@ -15,6 +16,8 @@ export interface CanvasItem {
   scaleX: number;
   scaleY: number;
 
+  draggable: boolean;
+  contentEditable: boolean;
 }
 
 
@@ -28,33 +31,40 @@ export interface CanvasItemText extends CanvasItem {
   stroke: string;
   strokeWidth: number;
   fontFamily: string;
-}
+}*/
 
 interface HistorySnapshot {
-  items: CanvasItem[];
+  // items: CanvasItem[];
+  items: IKonvaBaseCanvasItem[];
   imageUrl: string | null;
 }
 
 export interface IEditedTemplateForSave {
-  edited_template_items: CanvasItem[];
+  // edited_template_items: CanvasItem[];
+  // edited_template_items: IKonvaBaseCanvasItem[];
   // image_url: string;
-  template: ITemplate;
+  konvaData: IKonvaTemplate;
+  templateDB: ITemplate;
   coverImageURL: string;
   thumbnailDataUrl: string | null;
 }
 
 interface EditorState {
   imageUrl: string | null;
-  selectedTemplateId: number | null;
+
+  // we have slice for the template
+  // selectedTemplateId: number | null;
 
   // Now we use an array to store everything coming from page.tsx
-  items: CanvasItem[];
+  // items: CanvasItem[];
+  konvaData: IKonvaTemplate | null;
 
   isProcessing: boolean;
   statusMessage: string;
   status: 'loading' | 'idle' | 'succeeded' | 'failed';
 
-  selectedKonvaItem: CanvasItem | null;
+  // selectedKonvaItem: CanvasItem | null;
+  selectedKonvaItem: IKonvaBaseCanvasItem | null;
 
   view: {
     x: number;
@@ -73,8 +83,16 @@ interface EditorState {
 
 const initialState: EditorState = {
   imageUrl: null,
-  selectedTemplateId: null,
-  items: [], // Start empty, wait for page.tsx to fill it
+  // selectedTemplateId: null,
+  // items: [], // Start empty, wait for page.tsx to fill it
+  konvaData: /*{
+    width: 0,
+    height: 0,
+    pages: [],
+    audios: [],
+    unit: "px",
+    dpi: 0,
+  }*/ null,
   isProcessing: false,
   statusMessage: "",
   status: 'idle',
@@ -99,7 +117,8 @@ const initialState: EditorState = {
 // Helper to handle the history logic
 const EditorRecordHistory = (state: EditorState) => {
   const snapshot = {
-    items: JSON.parse(JSON.stringify(state.items)),
+    // items: JSON.parse(JSON.stringify(state.items)),
+    items: JSON.parse(JSON.stringify(state.konvaData?.pages[0].children)),
     imageUrl: state.imageUrl
   };
 
@@ -130,7 +149,7 @@ const syncSelectionAndControls = (state: any) => {
   const currentId = state.selectedKonvaItem.id;
 
   // Find the version of this item in the newly restored items array
-  const restoredItem = state.items.find((item: any) => item.id === currentId);
+  const restoredItem = state.konvaData?.pages[0].children.find((item: any) => item.id === currentId);
 
   if (restoredItem) {
     // Update the selection with the data from the history snapshot
@@ -150,8 +169,16 @@ export const editorSlice = createSlice({
   initialState,
   reducers: {
     // THIS IS THE ONE YOU CALL FROM PAGE.tsx WRAPPER
-    setItems: (state, action: PayloadAction<CanvasItem[]>) => {
+    /*setItems: (state, action: PayloadAction<CanvasItem[]>) => {
       state.items = action.payload;
+    },*/
+    /*setItems: (state, action: PayloadAction<IKonvaBaseCanvasItem[]>) => {
+      if (state.konvaData) {
+        state.konvaData.pages[0].children = action.payload;
+      }
+    },*/
+    setKonvaData: (state, action: PayloadAction<IKonvaTemplate>) => {
+      state.konvaData = action.payload;
     },
 
     setImageUrl: (state, action: PayloadAction<string | null>) => {
@@ -162,9 +189,9 @@ export const editorSlice = createSlice({
       console.log("image new url A:", action.payload);
     },
 
-    setTemplate: (state, action: PayloadAction<number>) => {
+    /*setTemplate: (state, action: PayloadAction<number>) => {
       state.selectedTemplateId = action.payload;
-    },
+    },*/
 
     // Add this reducer
     setScale: (state, action) => {
@@ -178,9 +205,29 @@ export const editorSlice = createSlice({
       state.view.scale = action.payload.scale;
     },
 
-    updateItem: (state, action: PayloadAction<{ id: string; changes: Partial<CanvasItem | CanvasItemText>, addToHistory?: boolean }>) => {
+    /*moveItemByArrow: (state, action: PayloadAction<{ id: string, direction: 'up' | 'down' | 'left' | 'right', step: number }>) => {
+      const item = state.konvaData?.pages[0].children.find(i => i.id === action.payload.id);
+      if (item) {
+        if (action.payload.direction === 'up') item.y -= action.payload.step;
+        if (action.payload.direction === 'down') item.y += action.payload.step;
+        if (action.payload.direction === 'left') item.x -= action.payload.step;
+        if (action.payload.direction === 'right') item.x += action.payload.step;
+      }
+    },*/
+
+    updateItem: (state, action: PayloadAction<{
+      id: string;
+      changes: Partial<
+
+        // CanvasItem | CanvasItemText
+        IKonvaBaseCanvasItem | IKonvaTemplateImageItem | IKonvaTemplateTextItem
+
+      >,
+      addToHistory?: boolean
+    }>) => {
       const { id, changes, addToHistory = false } = action.payload;
-      const index = state.items.findIndex(item => item.id === id);
+      // const index = state.items.findIndex(item => item.id === id);
+      const index = state.konvaData?.pages[0].children.findIndex(item => item.id === id);
 
       if (index !== -1) {
 
@@ -189,7 +236,10 @@ export const editorSlice = createSlice({
         }
 
         // 1. Update the item in the list
-        state.items[index] = { ...state.items[index], ...changes };
+        // state.items[index] = { ...state.items[index], ...changes };
+        if (state.konvaData) {
+          state.konvaData.pages[0].children[index as number] = { ...state.konvaData.pages[0].children[index as number], ...changes };
+        }
 
         // 2. CRITICAL: Update the selection reference!
         // If the item we just changed is the one currently selected, 
@@ -203,13 +253,14 @@ export const editorSlice = createSlice({
 
 
     // Shortcut for dragging specifically
-    updatePosition: (state, action: PayloadAction<{ id: string; x: number; y: number }>) => {
-      const item = state.items.find(i => i.id === action.payload.id);
+    /*updatePosition: (state, action: PayloadAction<{ id: string; x: number; y: number }>) => {
+      // const item = state.items.find(i => i.id === action.payload.id);
+      const item = state.konvaData?.pages[0].children.find(i => i.id === action.payload.id);
       if (item) {
         item.x = action.payload.x;
         item.y = action.payload.y;
       }
-    },
+    },*/
 
     setProcessing: (state, action: PayloadAction<boolean>) => {
       state.isProcessing = action.payload;
@@ -217,6 +268,70 @@ export const editorSlice = createSlice({
 
     setStatus: (state, action: PayloadAction<string>) => {
       state.statusMessage = action.payload;
+    },
+
+    reorderItem: (state, action: PayloadAction<{ id: string; type: "front" | "back" | "forward" | "backward" }>) => {
+      const { id, type } = action.payload;
+
+      if (!state.konvaData) return;
+      // 1. Access the children array from your specific structure
+      const children = state.konvaData?.pages[0]?.children;
+
+      if (!children) return;
+
+      // 2. Find the current index of the selected item
+      const index = children.findIndex((item) => item.id === id);
+      if (index === -1) return;
+
+      const itemToMove = children[index];
+      const newChildren = [...children];
+
+      // 3. Remove the item from its current position
+      newChildren.splice(index, 1);
+
+      // 4. Determine the new position
+      switch (type) {
+        case "front":
+          // Push to the end of the array (rendered last = on top)
+          newChildren.push(itemToMove);
+          break;
+
+        case "back":
+          // Unshift to the start of the array (rendered first = at bottom)
+          newChildren.unshift(itemToMove);
+          break;
+
+        case "forward":
+          // Move one index higher, capped at the array length
+          const forwardIndex = Math.min(index + 1, children.length - 1);
+          newChildren.splice(forwardIndex, 0, itemToMove);
+          break;
+
+        case "backward":
+          // Move one index lower, capped at 0
+          const backwardIndex = Math.max(index - 1, 0);
+          newChildren.splice(backwardIndex, 0, itemToMove);
+          break;
+      }
+      EditorRecordHistory(state);
+      // 5. Save the new array back to the state
+      state.konvaData.pages[0].children = newChildren;
+
+      // 6. Record History (Optional: trigger your history middleware or logic here)
+      // If you have an addToHistory flag, you'd handle it here.
+
+    },
+
+    addItem: (state, action: PayloadAction<any>) => {
+      EditorRecordHistory(state);
+      state.konvaData?.pages[0].children.push(action.payload);
+    },
+    deleteItem: (state, action: PayloadAction<string>) => {
+      EditorRecordHistory(state);
+      const index = state.konvaData?.pages[0].children.findIndex((item) => item.id === action.payload);
+      if (index !== -1) {
+        state.konvaData?.pages[0].children.splice(index as number, 1);
+      }
     },
 
     setselectedKonvaItem: (state, action: PayloadAction<any>) => {
@@ -231,7 +346,8 @@ export const editorSlice = createSlice({
       if (state.history.past.length > 0) {
         // 1. Save current state to future (for redo)
         state.history.future.unshift({
-          items: JSON.parse(JSON.stringify(state.items)),
+          // items: JSON.parse(JSON.stringify(state.items)),
+          items: JSON.parse(JSON.stringify(state.konvaData?.pages[0].children)),
           imageUrl: state.imageUrl
         });
 
@@ -239,8 +355,9 @@ export const editorSlice = createSlice({
         const previous = state.history.past.pop();
 
         // 3. Restore items and image
-        if (previous) {
-          state.items = previous.items;
+        if (previous && state.konvaData) {
+          // state.items = previous.items;
+          state.konvaData.pages[0].children = previous.items;
           state.imageUrl = previous.imageUrl;
           syncSelectionAndControls(state);
         }
@@ -251,7 +368,8 @@ export const editorSlice = createSlice({
       if (state.history.future.length > 0) {
         // 1. Save current state to past (for undo)
         state.history.past.push({
-          items: JSON.parse(JSON.stringify(state.items)),
+          // items: JSON.parse(JSON.stringify(state.items)),
+          items: JSON.parse(JSON.stringify(state.konvaData?.pages[0].children)),
           imageUrl: state.imageUrl
         });
 
@@ -259,8 +377,9 @@ export const editorSlice = createSlice({
         const next = state.history.future.shift();
 
         // 3. Restore items and image
-        if (next) {
-          state.items = next.items;
+        if (next && state.konvaData) {
+          // state.items = next.items;
+          state.konvaData.pages[0].children = next.items;
           state.imageUrl = next.imageUrl;
           syncSelectionAndControls(state);
         }
@@ -351,11 +470,14 @@ export const loadEditorImageSilent = createAsyncThunk<
 
 
 export const {
-  setItems,
+  // setItems,
+  // moveItemByArrow,
+  setKonvaData,
   setImageUrl,
-  setTemplate,
+  // we have slice for the template
+  // setTemplate,
   updateItem,
-  updatePosition,
+  // updatePosition,
   setProcessing,
   setStatus,
   resetEditor,

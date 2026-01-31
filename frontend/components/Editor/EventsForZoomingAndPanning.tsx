@@ -20,8 +20,20 @@ export default function EventsForZoomingAndPanning({ stageRef }: Props) {
 
   const updateStageAndPosition = useCallback((requestedScale: number) => {
     const stage = stageRef?.current;
-    const container = document.querySelector('.editor-canvas-engine');
+    const container: any = document.querySelector('.editor-canvas-engine');
+    const containerHolder: any = document.querySelector('.konvajs-content-holder');
+
+    console.log("updateStageAndPosition::", requestedScale);
+
+
     if (!stage || !container) return;
+
+    console.log("updateStageAndPosition, stage exists::");
+    console.log("updateStageAndPosition, container exists::", container);
+
+    if (containerHolder.style.display === "none") {
+      containerHolder.style.display = "block";
+    }
 
     const { width: containerW, height: containerH } = container.getBoundingClientRect();
 

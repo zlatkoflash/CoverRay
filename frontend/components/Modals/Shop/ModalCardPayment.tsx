@@ -110,7 +110,7 @@ export default function ModalCardPayment() {
       stripeCustomer: IStripeCustomer | null;
     }>(`/stripe/get-stripe-customer`, "POST", {
       email: authState.user?.email,
-      name: authState.user?.name,
+      // name: authState.user?.name,
     }, "authorize", "application/json");
     console.log("stripeCustomerInfo", stripeCustomerInfo);
     if (!stripeCustomerInfo.stripeCustomer) {
@@ -198,7 +198,8 @@ export default function ModalCardPayment() {
       stripeCustomer: stripeCustomerInfo.stripeCustomer,
       paymentIntent: stripePaymentInfo.paymentIntentData,
 
-      templateId: editedTemplateDetails?.template.id
+      // templateId: editedTemplateDetails?.template.id
+      templateId: editedTemplateDetails?.templateDB.id
     };
     console.log("payloadForDoingTheOrder:", payloadForDoingTheOrder);
     console.log("Finally we are here, we can send the products to the user.");

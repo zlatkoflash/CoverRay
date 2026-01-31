@@ -8,6 +8,7 @@ import { getApiData } from "@/utils/api";
 import { ITemplate } from "@/utils/interfaceDatabase";
 import dynamic from "next/dynamic";
 import BtnSaveForPaymentPurposesWrap from "./BtnSaveForPaymentPurposesWrap";
+import HeaderWrap from "@/components/headers/HeadeWrap";
 // import dynamic from "next/dynamic";
 
 // 2. Define the dynamic component OUTSIDE the function
@@ -38,7 +39,11 @@ export default async function TemplatePageEditorBySlug({ params }: { params: Pro
       <EditorHydrator
         template={template.template} />
 
-      <Header customContinueButton={<BtnSaveForPaymentPurposesWrap />} />
+      {
+        // <Header customContinueButton={<BtnSaveForPaymentPurposesWrap />} />
+      }
+
+      <HeaderWrap />
 
       <div className={`main-container ${allEditorFontVariables
 

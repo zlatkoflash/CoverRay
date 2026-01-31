@@ -26,7 +26,7 @@ interface IAppMetadata {
 
 interface IUserMetadata {
   email_verified: boolean;
-  role: string;
+  role: "administrator" | "client";
   signup_date: string;
 }
 

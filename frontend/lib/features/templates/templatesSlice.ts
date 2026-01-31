@@ -1,5 +1,5 @@
 import { getApiData } from "@/utils/api";
-import { ITemplate, ITemplateCategory, ITemplateCategoryWithCount } from "@/utils/interfaceDatabase";
+import { ITemplate, ITemplateCategory, ITemplateCategoryWithCount, ITemplateVersion } from "@/utils/interfaceDatabase";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ITemplateState {
@@ -10,6 +10,13 @@ interface ITemplateState {
 
   ContinueButttonDisabled: boolean;
 
+  /**
+   * When the select in administrator is set to draft this will be true,
+   * we will see where we can use isDraft variable
+   */
+  isDraft: boolean;
+  versions: ITemplateVersion[];
+  selectedVersion: "draft" | "live" | number;
 
 }
 
@@ -19,6 +26,9 @@ const initialState: ITemplateState = {
   templates: [],
   selectedTemplate: null,
   ContinueButttonDisabled: false,
+  isDraft: false,
+  versions: [],
+  selectedVersion: "live"
 };
 
 export const templatesSlice = createSlice({
@@ -41,6 +51,19 @@ export const templatesSlice = createSlice({
     },
     setContinueButtonDisabled: (state, action: PayloadAction<boolean>) => {
       state.ContinueButttonDisabled = action.payload;
+    },
+    setIsDraft: (state, action: PayloadAction<boolean>) => {
+      state.isDraft = action.payload;
+    },
+    setVersions: (state, action: PayloadAction<ITemplateVersion[]>) => {
+      state.versions = action.payload;
+    },
+
+    /**
+     * In administrator part we have dropdown draft, live-template and versions ids. Selecting those will load teh konva data for the template for the next manipulations
+     */
+    setSelectedVersion: (state, action: PayloadAction<"draft" | "live" | number>) => {
+      state.selectedVersion = action.payload;
     },
   },
   extraReducers: (builder) => {

@@ -16,7 +16,10 @@ export default function PaymentButtons() {
     console.log("authState.user:", authState.user);
     if (!isLogged) {
       // open the login modal
-      dispatch(authActions.setModalSignInOpen(true));
+      dispatch(authActions.setModalSignInOpen({
+        open: true,
+        intentAfterSignIn: "CHECKOUT"
+      }));
       return;
     }
 

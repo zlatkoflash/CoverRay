@@ -170,3 +170,26 @@ body {
     margin-bottom: 0;
   }
 }
+
+
+
+.editor-tools {
+  &.x2-in-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+.canvas-toolbars-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(.8*var(--delta));
+  position: absolute;
+  left: calc(2*var(--delta));
+  top: calc(2*var(--delta));
+  z-index: 10;
+
+  .canvas-toolbar {
+    position: static;
+  }
+}

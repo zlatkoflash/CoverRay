@@ -6,36 +6,33 @@ import { EditorActions } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
 import { IKonvaTemplateTextItem } from "@/utils/interfaceTemplate";
 
-export default function EditorTextSize() {
+export default function EditorTextLineHeight() {
   const dispatch = useDispatch();
   const selectedItem = useSelector((state: RootState) => state.editor.selectedKonvaItem);
   const selectedItemText = selectedItem as IKonvaTemplateTextItem;
 
-  // This ref stores the size BEFORE the user starts sliding
-  const startSizeRef = useRef<number>(0);
+  // Stores the value BEFORE the user starts sliding
+  const startValueRef = useRef<number>(selectedItemText?.lineHeight || 1);
 
-  const currentSize = selectedItemText?.fontSize || 56;
-  const min = 12;
-  const max = 300;
+  // Default Konva line height is usually 1
+  const currentLineHeight = selectedItemText?.lineHeight || 1;
+  const min = 1;
+  const max = 2.5;
 
-  const percentage = ((currentSize - min) / (max - min)) * 100;
+  // Calculate percentage for the CSS gradient background
+  const percentage = ((currentLineHeight - min) / (max - min)) * 100;
 
-  const handleSizeChange = (newSize: number, addToHistory: boolean = false) => {
+  const handleLineHeightChange = (newValue: number, addToHistory: boolean = false) => {
     if (!selectedItem) return;
 
-    const clampedSize = Math.max(min, Math.min(max, newSize));
-
-    // If we are committing to history, we use your special action
-    // const actionType = addToHistory ? EditorActions.commitItemChange : EditorActions.updateItem;
+    // Clamp between 1 and 2.5
+    const clampedValue = Math.max(min, Math.min(max, newValue));
 
     dispatch(
       EditorActions.updateItem({
         id: selectedItem.id,
         changes: {
-          fontSize: clampedSize,
-          scaleX: 1,
-          scaleY: 1,
-
+          lineHeight: clampedValue,
         },
         addToHistory
       })
@@ -46,14 +43,14 @@ export default function EditorTextSize() {
 
   return (
     <div className="panel-section">
-      <div className="section-title">Text Size</div>
+      <div className="section-title">Line Height</div>
       <div className="size-slider-container">
         <div className="size-slider-row" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
           {/* DECREASE BUTTON */}
           <button
             className="size-label"
-            onClick={() => handleSizeChange(currentSize - 1, true)}
+            onClick={() => handleLineHeightChange(currentLineHeight - 0.1, true)}
             type="button"
             style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '14px' }}
           >
@@ -63,24 +60,17 @@ export default function EditorTextSize() {
           <input
             type="range"
             className="size-slider"
-            id="sizeSlider"
             min={min}
             max={max}
-            value={currentSize}
-            // 1. Record the size when the mouse goes down
+            step={0.1} // Allows for decimal increments
+            value={currentLineHeight}
             onMouseDown={() => {
-              startSizeRef.current = currentSize;
+              startValueRef.current = currentLineHeight;
             }}
-            // 2. Update visual state live (no history)
-            onChange={(e) => handleSizeChange(parseInt(e.target.value), false)}
-            // 3. Logic for mouse release
+            onChange={(e) => handleLineHeightChange(parseFloat(e.target.value), false)}
             onMouseUp={() => {
-              // Only add to history if the value actually changed from the start
-              if (currentSize !== startSizeRef.current) {
-                console.log("Size changed, adding to history...");
-                handleSizeChange(currentSize, true);
-              } else {
-                console.log("No change in size, skipping history.");
+              if (currentLineHeight !== startValueRef.current) {
+                handleLineHeightChange(currentLineHeight, true);
               }
             }}
             style={{
@@ -93,7 +83,7 @@ export default function EditorTextSize() {
           {/* INCREASE BUTTON */}
           <button
             className="size-label large"
-            onClick={() => handleSizeChange(currentSize + 1, true)}
+            onClick={() => handleLineHeightChange(currentLineHeight + 0.1, true)}
             type="button"
             style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '20px' }}
           >
@@ -101,8 +91,8 @@ export default function EditorTextSize() {
           </button>
 
         </div>
-        <div className="size-value" id="sizeValue" style={{ textAlign: 'center', marginTop: '5px' }}>
-          {currentSize}px
+        <div className="size-value" style={{ textAlign: 'center', marginTop: '5px' }}>
+          {currentLineHeight.toFixed(1)}
         </div>
       </div>
     </div>

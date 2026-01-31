@@ -40,6 +40,7 @@ export interface ITemplate {
   sort_order: number;
   created_at: string; // ISO timestamp
   updated_at: string;
+  catalog_image: string;
 }
 
 
@@ -128,4 +129,20 @@ export interface IOrderFile {
 
   /** The path in the Supabase Storage bucket */
   file_path: string | null;
+}
+
+
+export interface ITemplateDraft {
+  id: string;
+  updated_at: string; // ISO Timestamp
+  template_data: any; // Or a specific interface for your Konva/Editor JSON
+  updated_by: string; // UUID
+  template_id: string; // UUID (Foreign Key to live template)
+}
+export interface ITemplateVersion {
+  id: number;
+  created_at: string; // ISO Timestamp
+  template_data: any; // The JSON state of your canvas/editor
+  created_by: string; // UUID of the user who created this version
+  template_id: string; // The parent template ID
 }
