@@ -3,12 +3,13 @@ import EditorHydrator from "@/components/Editor/EditorHydrator";
 import Header from "@/components/headers/Header";
 import EditorSidebar from "@/components/Sidebars/EditorSidebar/Index";
 // import BtnSaveForPaymentPurposes from "@/components/SpecialButtons/BtnSaveForPaymentPurposes";
-import { allEditorFontVariables } from "@/lib/fonts";
+//  import { allEditorFontVariables } from "@/lib/fonts";
 import { getApiData } from "@/utils/api";
 import { ITemplate } from "@/utils/interfaceDatabase";
 import dynamic from "next/dynamic";
 import BtnSaveForPaymentPurposesWrap from "./BtnSaveForPaymentPurposesWrap";
 import HeaderWrap from "@/components/headers/HeadeWrap";
+import EditorTemplateDesktopMobile from "./ContentDevices/EditorTemplateDesktopMobile";
 // import dynamic from "next/dynamic";
 
 // 2. Define the dynamic component OUTSIDE the function
@@ -37,13 +38,16 @@ export default async function TemplatePageEditorBySlug({ params }: { params: Pro
     <>
       {/* 1. The silent worker starts loading data in the background */}
       <EditorHydrator
-        template={template.template} />
+        template={template.template}
+      />
 
       {
         // <Header customContinueButton={<BtnSaveForPaymentPurposesWrap />} />
       }
 
-      <HeaderWrap />
+      {
+        /*
+        <HeaderWrap />
 
       <div className={`main-container ${allEditorFontVariables
 
@@ -57,6 +61,10 @@ export default async function TemplatePageEditorBySlug({ params }: { params: Pro
           </div>
         </div>
       </div>
+        */
+      }
+
+      <EditorTemplateDesktopMobile />
 
     </>
   );

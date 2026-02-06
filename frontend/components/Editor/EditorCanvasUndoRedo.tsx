@@ -7,9 +7,10 @@ import { EditorActions } from "@/lib/features/editor/editorSlice";
 export default function EditorCanvasUndoRedo() {
   const dispatch = useDispatch();
 
-  const canUndo = useSelector((state: RootState) => state.editor.history.past.length > 0);
-  const canRedo = useSelector((state: RootState) => state.editor.history.future.length > 0);
-  const undoArray = useSelector((state: RootState) => state.editor.history.past);
+  const stateEditor = useSelector((state: RootState) => state.editor);
+  const canUndo = stateEditor.history.past.length > 0;
+  const canRedo = stateEditor.history.future.length > 0;
+  const undoArray = stateEditor.history.past;
   console.log("state.editor.history.past:", undoArray);
 
   // Define styles in JS for easy copy-pasting, or move to a .css file

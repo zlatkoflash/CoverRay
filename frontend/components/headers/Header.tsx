@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase";
 import { LogIn } from "lucide-react";
 import { authActions } from "@/lib/features/auth/authSlice";
 import BtnSaveForPaymentPurposesWrap from "@/app/Editor/Template/[template_slug]/BtnSaveForPaymentPurposesWrap";
+import BtnSaveForLaterClient from "./BtnSaveForLaterClient";
 
 const BtnSaveForLater = dynamic(
   () => import('./BtnSaveForLater'),
@@ -106,6 +107,10 @@ export default function Header(
             /*<button className="btn btn-primary" id="headerCTA" onClick={() => {
             console.log("nextStep()");
           }}>Continue →</button>*/
+          }
+
+          {
+            isTemplateEditor && <BtnSaveForLaterClient />
           }
 
           {

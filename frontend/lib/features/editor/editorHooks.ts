@@ -44,5 +44,5 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
     }));
   };
 
-  return { onClick, onDragEnd };
+  return { onClick: onClick, onTap: onClick, onDragEnd };
 };

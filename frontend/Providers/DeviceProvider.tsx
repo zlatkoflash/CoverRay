@@ -13,6 +13,7 @@ const DeviceContext = createContext<DeviceContextType>({
 export const DeviceProvider = ({ children }: { children: React.ReactNode }) => {
   // We start as null or a default to handle the "Hydration" gap
   const [isMobile, setIsMobile] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false); // New state
 
   useEffect(() => {
     // This runs ONCE on mount
@@ -23,6 +24,7 @@ export const DeviceProvider = ({ children }: { children: React.ReactNode }) => {
 
       // Lock the value based on the screen width at the moment of loading
       setIsMobile(width < 768 || isMobileOS);
+      setHasMounted(true); // Mark as mounted
     };
 
     checkIsMobile();
@@ -31,7 +33,7 @@ export const DeviceProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DeviceContext.Provider value={{ isMobile }}>
-      {children}
+      {hasMounted && children}
     </DeviceContext.Provider>
   );
 };

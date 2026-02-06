@@ -8,7 +8,7 @@ import EditorSidebar from "@/components/Sidebars/EditorSidebar/Index";
 // import { editorFontVariables, editorFonts } from "@/lib/fonts";
 
 import exampleJSONTemplate from '@/example-templates/birthday.json';
-import { allEditorFontVariables, customFonts } from "@/lib/fonts";
+// import { allEditorFontVariables, customFonts } from "@/lib/fonts";
 // import { allFontVariables, customFonts } from "@/lib/fonts";
 
 export default function Editor() {
@@ -23,7 +23,7 @@ export default function Editor() {
 
       <Header />
 
-      <div className={`main-container ${allEditorFontVariables}`}>
+      <div className={`main-container `}>
         <div className="screen active" id="screen2">
           <div className="editor-layout">
             <EditorCanvasFinal

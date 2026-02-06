@@ -42,6 +42,7 @@ export default function EditorHydrator(
       // if we don't have saved template in localhost we load the template from the server
       // dispatch(EditorActions.setItems(template.template_data.pages[0].children));
       let templatesData = template.template_data as IKonvaTemplate;
+      // let templatesData = template.template_data_fixed as IKonvaTemplate;
       if (templatesData.pages === undefined) {
         templatesData = {
           pages: [{

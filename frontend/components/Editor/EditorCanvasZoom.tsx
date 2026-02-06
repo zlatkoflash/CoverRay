@@ -3,8 +3,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { EditorActions } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
+import { useDevice } from "@/Providers/DeviceProvider";
 
 export default function EditorCanvasZoom() {
+
+  const { isMobile } = useDevice();
+
   const dispatch = useDispatch();
 
   // Use 'scale' from your state (defaulting to 1)
@@ -15,6 +19,18 @@ export default function EditorCanvasZoom() {
     console.log(currentScale + increment);
     dispatch(EditorActions.setScale(currentScale + increment));
   };
+
+  if (isMobile === true) {
+    return null;
+    {
+      /*
+      Maybe zoom will need
+      return <div className="zoom-controls">
+      <button className="zoom-btn" onClick={() => handleZoom(-0.05)}>−</button>
+      <button className="zoom-btn" onClick={() => handleZoom(0.05)}>+</button>
+    </div>*/
+    }
+  }
 
   return (
     <div className="canvas-zoom">

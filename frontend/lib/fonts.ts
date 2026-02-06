@@ -1,4 +1,4 @@
-import localFont from 'next/font/local';
+/*import localFont from 'next/font/local';
 
 // --- Individual Static Declarations ---
 const aclonica = localFont({ src: '../assets/fonts/Aclonica-Regular.ttf', variable: '--font-aclonica', display: 'swap' });
@@ -35,6 +35,29 @@ const gupterRegular = localFont({ src: '../assets/fonts/Gupter-Regular.ttf', var
 const limelight = localFont({ src: '../assets/fonts/Limelight.ttf', variable: '--font-limelight', display: 'swap' });
 const linkinPark = localFont({ src: '../assets/fonts/Linkin Park ExtraBold.ttf', variable: '--font-linkin-park', display: 'swap' });
 const mysteryQuest = localFont({ src: '../assets/fonts/MysteryQuest-Regular.ttf', variable: '--font-mystery-quest', display: 'swap' });
+const cinzelBold = localFont({ src: '../assets/fonts/Cinzel-Bold.otf', variable: '--font-cinzel-bold', display: 'swap' });
+// const cinzelBoldItalic = localFont({ src: '../assets/fonts/Cinzel-BoldItalic.ttf', variable: '--font-cinzel-bold-italic', display: 'swap' });
+// const cinzelItalic = localFont({ src: '../assets/fonts/Cinzel-Italic.ttf', variable: '--font-cinzel-italic', display: 'swap' });
+// const cinzelRegular = localFont({ src: '../assets/fonts/Cinzel-Regular.ttf', variable: '--font-cinzel-regular', display: 'swap' });
+const cinzelDecorative = localFont({
+  // src: '../assets/fonts/CinzelDecorative-Bold.otf',
+  src: [
+    // there is also black weight, but don't need for now
+    {
+      path: '../assets/fonts/CinzelDecorative-Bold.otf',
+      weight: 'bold',
+      style: 'normal',
+    },
+    {
+      path: '../assets/fonts/CinzelDecorative-Regular.otf',
+      weight: 'normal',
+      style: 'normal',
+    },
+  ],
+  // variable: '--font-cinzel-decorative-bold',
+  variable: '--font-cinzel-decorative',
+  display: 'swap'
+});
 
 // --- Exported Array for your UI Dropdown ---
 export const customFonts = [
@@ -71,8 +94,14 @@ export const customFonts = [
   { name: 'Gupter Regular', variable: '--font-gupter-regular', instance: gupterRegular },
   { name: 'Limelight', variable: '--font-limelight', instance: limelight },
   { name: 'Linkin Park ExtraBold', variable: '--font-linkin-park', instance: linkinPark },
-  { name: 'Mystery Quest Regular', variable: '--font-mystery-quest', instance: mysteryQuest }
+  { name: 'Mystery Quest Regular', variable: '--font-mystery-quest', instance: mysteryQuest },
+  { name: 'Cinzel Bold', variable: '--font-cinzel-bold', instance: cinzelBold },
+  // { name: 'Cinzel Bold Italic', variable: '--font-cinzel-bold-italic', instance: cinzelBoldItalic },
+  // { name: 'Cinzel Italic', variable: '--font-cinzel-italic', instance: cinzelItalic },
+  // { name: 'Cinzel Regular', variable: '--font-cinzel-regular', instance: cinzelRegular },
+  // { name: 'Cinzel Decorative Bold', variable: '--font-cinzel-decorative-bold', instance: cinzelDecorativeBold },
+  { name: 'Cinzel Decorative', variable: '--font-cinzel-decorative', instance: cinzelDecorative },
 ];
 
 // --- String of all variables for the page wrapper ---
-export const allEditorFontVariables = customFonts.map(f => f.instance.variable).join(' ');
+export const allEditorFontVariables = customFonts.map(f => f.instance.variable).join(' ');*/

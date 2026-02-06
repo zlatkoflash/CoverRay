@@ -4,6 +4,7 @@ import AsideCheckout from "./AsideCheckout";
 import { getApiData } from "@/utils/api";
 import { IStripeProduct } from "@/utils/interfacesStripe";
 import HydrateTheShop from "./HydrateTheShop";
+import DesktopMobileContent from "./DesktopMobileContent";
 
 export default async function CheckoutPage() {
 
@@ -30,16 +31,7 @@ export default async function CheckoutPage() {
       paymentProcessingMessage: "",
     }} />
 
-    <Header />
-
-    <div className={`main-container `}>
-      <div className="screen active" id="screen2">
-        <div className="checkout-layout">
-          <MainProducts />
-          <AsideCheckout selectedIds={[]} />
-        </div>
-      </div>
-    </div>
+    <DesktopMobileContent />
 
   </>;
 }

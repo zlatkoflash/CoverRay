@@ -13,6 +13,79 @@ import { POSTER_H, POSTER_W } from "@/utils/editor";
 import { useRouter } from "next/navigation";
 import { GetKonvaBlob, getKonvaPDF } from "@/components/Editor/utils/KonvaScripts";
 
+interface SaveTemplateParams {
+  canvasRefs: { pageGroup: any };
+  view: any;
+  konvaData: any;
+  template: any;
+  imageCoverURL: string;
+  router: any;
+  GetKonvaBlob: Function;
+  getKonvaPDF: Function;
+}
+
+/**
+ * Global function to handle high-quality saving, 
+ * local storage caching, and navigation to checkout.
+ */
+export const globalSaveTemplateAndRedirect = async ({
+  canvasRefs,
+  view,
+  konvaData,
+  template,
+  imageCoverURL,
+  router,
+  GetKonvaBlob,
+  getKonvaPDF
+}: SaveTemplateParams) => {
+
+  if (!canvasRefs.pageGroup) return;
+  const group = canvasRefs.pageGroup;
+  const stage = group?.getStage();
+
+  if (!group || !stage) return;
+
+  try {
+    // 1. Generate low-res thumbnail for the UI/Review
+    const thumbData = await GetKonvaBlob(0.8, 0.5, view, "generateAsBlob");
+    const thumbnailDataUrl = URL.createObjectURL(thumbData?.blob as Blob);
+
+    // 2. Prepare and save main template data
+    const detailsForSaving = {
+      konvaData,
+      templateDB: template,
+      coverImageURL: imageCoverURL,
+      thumbnailDataUrl: thumbnailDataUrl
+    };
+
+    await LS_SaveTemplateIntoIndexDB(detailsForSaving, INDEX_DB_TEMPLATE_REF_FOR_PAYMENT);
+
+    // 3. Generate HIGH-RES image and PDF for the actual print/product
+    const highResDataUrl = await GetKonvaBlob(0.95, 1.4, view, "generateAsDataUrl");
+
+    // Generate PDF
+    const konvaPDF = await getKonvaPDF(highResDataUrl?.dataUrl as string, view);
+    const pdfBlob = konvaPDF.output("blob");
+
+    // Get final high-res image blob
+    const highResBlobData = await GetKonvaBlob(0.95, 1.4, view, "generateAsBlob");
+    const imageBlob = highResBlobData?.blob as Blob;
+
+    // 4. Save Final Blobs to IndexedDB for Checkout
+    await LS_SaveCoverAndPDF_ForFinalPayment(imageBlob, pdfBlob);
+
+    // 5. Navigate
+    router.push("/checkout");
+
+    return { success: true, thumbnailUrl: thumbnailDataUrl };
+
+  } catch (error) {
+    console.error("Global Save Error:", error);
+    return { success: false, error };
+  }
+};
+
+
 
 export default function BtnSaveForPaymentPurposes() {
 
@@ -27,8 +100,10 @@ export default function BtnSaveForPaymentPurposes() {
 
   const router = useRouter();
 
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const __SaveTemplateToIndexDB = async () => {
+
+  /*const __SaveTemplateToIndexDB = async () => {
 
     if (!canvasRefs.pageGroup) return;
     console.log("__SaveTemplateForPaymentPurposes():");
@@ -53,9 +128,8 @@ export default function BtnSaveForPaymentPurposes() {
     );
     const generatedThumbnailUrl = URL.createObjectURL(detailsForThumbnail?.blob as Blob);
 
-    /**
-     * Saving the details about the template for processing to purchasing
-     */
+    
+    // Saving the details about the template for processing to purchasing
     // console.log("thumbnailDataUrl:", thumbnailDataUrl);
     const detailsForSaving = {
       konvaData: konvaData,
@@ -71,12 +145,12 @@ export default function BtnSaveForPaymentPurposes() {
     console.log("detailsLoadTemp:", detailsLoadTemp);
     setTemporaryImageUrl(detailsForSaving.thumbnailDataUrl as string);
 
-    /*const konvaFinalBlob = await GetKonvaBlob(
-      .95, // quality
-      1.4, // scaleThePoster
-      view,
-      "generateAsBlob"
-    );*/
+    //const konvaFinalBlob = await GetKonvaBlob(
+      //.95, // quality
+      //1.4, // scaleThePoster
+      //view,
+      //"generateAsBlob"
+    //);
     const konvaFinalDataUrl = await GetKonvaBlob(
       .95, // quality
       1.4, // scaleThePoster
@@ -96,14 +170,29 @@ export default function BtnSaveForPaymentPurposes() {
       view,
     );
     const imageBlob = imageBlobData?.blob as Blob;
-    /**
-     * Now will save the blobs into the indexDB,
-     * for final payment purposes for checkout
-     */
+    
+    // Now will save the blobs into the indexDB,
+    // for final payment purposes for checkout
+     
     const detailsAfterSaving = await LS_SaveCoverAndPDF_ForFinalPayment(imageBlob, konvaPDFFinalBlob);
     console.log("detailsAfterSaving:", detailsAfterSaving);
 
     router.push("/checkout");
+  }*/
+
+  const ___ProcessAndRedirectToCheckout = async () => {
+    setIsProcessing(true);
+    await globalSaveTemplateAndRedirect({
+      canvasRefs,
+      view,
+      konvaData,
+      template,
+      imageCoverURL: imageCoverURL as string,
+      router,
+      GetKonvaBlob,
+      getKonvaPDF
+    });
+    setIsProcessing(false);
   }
 
   return (
@@ -115,14 +204,25 @@ export default function BtnSaveForPaymentPurposes() {
           e.preventDefault();
           // this is for testing purposes
           // __SaveTemplateForPaymentPurposes();
-          __SaveTemplateToIndexDB();
+          // __SaveTemplateToIndexDB();
+          /*globalSaveTemplateAndRedirect({
+            canvasRefs,
+            view,
+            konvaData,
+            template,
+            imageCoverURL: imageCoverURL as string,
+            router,
+            GetKonvaBlob,
+            getKonvaPDF
+          });*/
+          ___ProcessAndRedirectToCheckout();
         }}
         style={{
           // pointerEvents: continueButtonDisabled ? "none" : "auto",
           // opacity: continueButtonDisabled ? 0.5 : 1,
         }}
       >
-        Continue →
+        {isProcessing ? "Processing..." : "Continue →"}
       </Link>
 
       {

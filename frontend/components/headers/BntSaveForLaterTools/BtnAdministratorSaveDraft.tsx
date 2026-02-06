@@ -33,10 +33,13 @@ export default function BtnAdministratorSaveDraft() {
         "authorize",
         "application/json"
       );
+      console.log("DataFeedback:", DataFeedback);
 
-      if (!DataFeedback.ok) alert(`Error: ${DataFeedback.message}`);
+      if (!DataFeedback.ok) {
+        console.log(`Error: ${DataFeedback.message}`);
+      }
     } catch (err) {
-      alert("An unexpected error occurred while saving.");
+      console.log("An unexpected error occurred while saving.");
     } finally {
       setIsSaving(false);
     }

@@ -79,6 +79,11 @@ interface EditorState {
     future: HistorySnapshot[];
   };
 
+
+  mobileTextEditorPanelVisible: boolean;
+  mobileTextColorPickerVisible: boolean;
+  mobileTextFontSizePickerVisible: boolean;
+
 }
 
 const initialState: EditorState = {
@@ -110,6 +115,10 @@ const initialState: EditorState = {
     past: [],
     future: []
   },
+
+  mobileTextEditorPanelVisible: false,
+  mobileTextColorPickerVisible: false,
+  mobileTextFontSizePickerVisible: false,
 
 };
 
@@ -385,6 +394,17 @@ export const editorSlice = createSlice({
         }
       }
     },
+
+    // panels events
+    setMobileTextEditorPanelVisible: (state, action: PayloadAction<boolean>) => {
+      state.mobileTextEditorPanelVisible = action.payload;
+    },
+    setMobileTextColorPickerVisible: (state, action: PayloadAction<boolean>) => {
+      state.mobileTextColorPickerVisible = action.payload;
+    },
+    setMobileTextFontSizePickerVisible: (state, action: PayloadAction<boolean>) => {
+      state.mobileTextFontSizePickerVisible = action.payload;
+    },
   },
 
 
@@ -485,6 +505,9 @@ export const {
   setView,
   undo,
   redo,
+  setMobileTextEditorPanelVisible,
+  setMobileTextColorPickerVisible,
+  setMobileTextFontSizePickerVisible,
 } = editorSlice.actions;
 
 export const EditorActions = editorSlice.actions;

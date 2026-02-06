@@ -8,6 +8,7 @@ import {
 // import "./../assets/css/Style-DESKTOP-ALL-SCREENS-FINAL.css";
 // import "./../assets/css/Style-Edits.scss";
 import './../assets/css.js.template/Style.template.css';
+import './../assets/css.js.template/Style.template.mobile.css';
 import './../assets/css.js.template/Style.template.edits.scss';
 import StoreProvider from "@/Providers/StoreProvider";
 import ModalSignIn from "@/components/Modals/Auth/ModalSignIn";

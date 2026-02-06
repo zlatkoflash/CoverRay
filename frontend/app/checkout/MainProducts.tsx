@@ -76,7 +76,9 @@ export default function MainProducts() {
               }
             }}
           >
-            <div className={`product-checkbox ${cartProductsItems.some((item) => item.id === product.id) ? 'checked' : ''}`}></div>
+            <div className={`product-radio ${cartProductsItems.some((item) => item.id === product.id) ? 'checked' : ''}`} style={{
+              borderRadius: "0px"
+            }}></div>
             <div className="product-icon">{product.metadata.icon}</div>
             <div className="product-info">
               <div className="product-name">

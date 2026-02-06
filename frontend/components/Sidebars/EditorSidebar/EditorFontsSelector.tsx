@@ -7,7 +7,7 @@ import {
   EditorActions
 } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
-import { customFonts } from "@/lib/fonts";
+// import { customFonts } from "@/lib/fonts";
 import ZSelectDropdown from "@/components/inputs/ZSelectDropdown";
 import { IKonvaTemplateTextItem } from "@/utils/interfaceTemplate";
 
@@ -29,7 +29,10 @@ export default function EditorFontsSelector() {
   };
 
   const handleFontSelect = async (fontVariable: string) => {
-    const resolvedFontName = getResolvedName(fontVariable);
+
+    console.log("fontVariable:", fontVariable);
+
+    /*const resolvedFontName = getResolvedName(fontVariable);
     if (!resolvedFontName) return;
 
     const fontToLoad = `16px "${resolvedFontName}"`;
@@ -41,24 +44,54 @@ export default function EditorFontsSelector() {
       } catch (e) {
         console.warn("Font loading error:", e);
       }
-    }
+    }*/
 
     dispatch(EditorActions.updateItem({
       id: selectedItem.id,
-      changes: { fontFamily: resolvedFontName },
+      // changes: { fontFamily: resolvedFontName },
+      changes: { fontFamily: fontVariable },
       addToHistory: true
     }));
   };
 
-  const fontOptions = customFonts.map(f => ({
+  /*const fontOptions = customFonts.map(f => ({
     value: f.variable,
     label: f.name,
     style: { fontFamily: `var(${f.variable})` }
-  }));
+  }));*/
 
-  const currentVariable = customFonts.find(f =>
+  const fontOptions = [
+    { value: "Arial", label: "Arial", style: { fontFamily: "Arial" } },
+    { value: "Courier New", label: "Courier New", style: { fontFamily: "Courier New" } },
+    { value: "Garamond", label: "Garamond", style: { fontFamily: "Garamond" } },
+    { value: "Time New Roman", label: "Time New Roman", style: { fontFamily: "Time New Roman" } },
+    { value: "Trebuchet MS", label: "Trebuchet MS", style: { fontFamily: "Trebuchet MS" } },
+    { value: "Verdana", label: "Verdana", style: { fontFamily: "Verdana" } },
+    // { value: "Aguafina Script", label: "Aguafina Script", style: { fontFamily: "Aguafina Script" } }, // not existing
+    { value: "Aclonica", label: "Aclonica", style: { fontFamily: "Aclonica" } },
+    // { value: "Akronim", label: "Akronim", style: { fontFamily: "Akronim" } }, // not existing
+    { value: "Alex Brush", label: "Alex Brush", style: { fontFamily: "Alex Brush" } }, // it is ALEX____.otf font and i am not sure it is the right
+    { value: "Allan", label: "Allan", style: { fontFamily: "Allan" } },
+    { value: "Amaranth", label: "Amaranth", style: { fontFamily: "Amaranth" } },
+    { value: "Averia Gruesa Libre", label: "Averia Gruesa Libre", style: { fontFamily: "Averia Gruesa Libre" } }, // we have font Averia-Gruesa.ttf but not "Averia Gruesa Libre"
+    { value: "Baloo Tammudu", label: "Baloo Tammudu", style: { fontFamily: "Baloo Tammudu" } },
+    { value: "Barrio", label: "Barrio", style: { fontFamily: "Barrio" } },
+    { value: "Cairo", label: "Cairo", style: { fontFamily: "Cairo" } },
+    { value: "Cinzel Decorative", label: "Cinzel Decorative", style: { fontFamily: "Cinzel Decorative" } },
+    { value: "Cookie", label: "Cookie", style: { fontFamily: "Cookie" } },
+    { value: "Cuprum", label: "Cuprum", style: { fontFamily: "Cuprum" } },
+    // { value: "Fjord One", label: "Fjord One", style: { fontFamily: "Fjord One" } }, //don't exist
+    { value: "Gupter", label: "Gupter", style: { fontFamily: "Gupter" } },
+    { value: "Limelight", label: "Limelight", style: { fontFamily: "Limelight" } },
+    // { value: "Londrina Shadow", label: "Londrina Shadow", style: { fontFamily: "Londrina Shadow" } }, // don't exist
+    // { value: "Monoton", label: "Monoton", style: { fontFamily: "Monoton" } }, // don't exist
+    // { value: "Mystery Quest", label: "Mystery Quest", style: { fontFamily: "Mystery Quest" } }, // don't exist
+  ];
+
+  /*const currentVariable = customFonts.find(f =>
     getResolvedName(f.variable) === selectedItem.fontFamily
-  )?.variable || "";
+  )?.variable || "";*/
+  const currentVariable = selectedItem.fontFamily;
 
   return (
     <div className="panel-section" ref={dropdownRef}>

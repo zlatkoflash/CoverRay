@@ -11,8 +11,11 @@ export default function ZKonvaImageComponent({ item, items }: { item: IKonvaTemp
   const dispatch = useDispatch();
   const useKonvaGlobalElementEvents = useKonvaElementEvents(item, items);
 
+  const proxiedUrl = `/api/proxy-image?url=${encodeURIComponent(item.src)}`;
+  // return null;
   const [loadedImage, status] = useImage(
-    item.src,
+    // item.src,
+    proxiedUrl,
     // "https://nwmttjhoidsujwtxhedu.supabase.co/storage/v1/object/sign/final-products/orders/007bcfb6-b43c-4d51-8710-818c60723276/images/v4dkwrwhgzs.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mNmRmMzY1NC01OWZiLTQ2ZjEtYmE2YS1lMTU3NmM1NGE4YzMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJmaW5hbC1wcm9kdWN0cy9vcmRlcnMvMDA3YmNmYjYtYjQzYy00ZDUxLTg3MTAtODE4YzYwNzIzMjc2L2ltYWdlcy92NGRrd3J3aGd6cy5qcGciLCJpYXQiOjE3Njk4MTM2MDgsImV4cCI6MTc3MDQxODQwOH0.t0IOfm54c9DSbjVY1ipfgVXwg0JMDM9vhZDGwsZKmgo",
     "anonymous"
   );
@@ -21,7 +24,7 @@ export default function ZKonvaImageComponent({ item, items }: { item: IKonvaTemp
   }
 
 
-  console.log("loadedImage:", loadedImage, status);
+  // console.log("loadedImage:", loadedImage, status);
 
   // --- Proportional Height Calculation ---
   const fixedWidth = item.width;

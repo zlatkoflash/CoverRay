@@ -41,6 +41,8 @@ export interface ITemplate {
   created_at: string; // ISO timestamp
   updated_at: string;
   catalog_image: string;
+  template_data_fixed: Record<string, any>; // maps to jsonb
+  template_data_old: Record<string, any>; // maps to jsonb
 }
 
 

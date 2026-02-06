@@ -116,11 +116,24 @@ body {
 
   // padding-top for the menu
   padding-top: calc(6.4*var(--delta));
+
+  margin-inline: auto;
+  max-width: calc(192*var(--delta));
+}
+
+.checkout-layout {
+  max-width: calc(140*var(--delta));
+  margin-inline: auto;
 }
 
 
 .konvajs-content-holder {
   overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .editor-canvas-area {
@@ -144,6 +157,7 @@ body {
 
 .modal-overlay {
   overflow: auto;
+  position: fixed;
 }
 
 
@@ -191,5 +205,120 @@ body {
 
   .canvas-toolbar {
     position: static;
+  }
+}
+
+
+body {
+  @media(max-width: 767px) {
+    padding: 0px;
+    display: block;
+
+    .screen {
+      position: static;
+    }
+  }
+}
+
+.mobile-header {
+  width: 100%;
+  padding-block: calc(1.2*var(--delta));
+
+  img {
+    height: calc(3.1*var(--delta));
+    width: auto;
+  }
+
+  &.for-editor {
+    justify-content: space-between;
+  }
+}
+
+.magazine-preview {
+  @media(max-width: 767px) {
+    >img {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      -o-object-fit: cover;
+      -o-object-position: center;
+    }
+  }
+}
+
+.mobile-footer {
+  position: fixed;
+  left: 0px !important;
+  bottom: 0px !important;
+  width: 100%;
+}
+
+.editor-canvas {
+  @media(max-width: 767px) {
+    padding: 0px;
+  }
+}
+
+.editor-canvas-area {
+  @media(max-width: 767px) {
+    width: 100%;
+    height: 70vh;
+    --header-footer-height: calc(6.1*var(--delta) + 10.3*var(--delta));
+    height: calc(100vh - var(--header-footer-height));
+    height: calc(100dvh - var(--header-footer-height));
+  }
+}
+
+.canvas-toolbars-wrapper {
+  @media(max-width: 767px) {
+    display: none;
+  }
+}
+
+
+.footer-mobile-for-editor {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+
+  .mobile-footer {
+    position: static;
+  }
+}
+
+.edit-panel {
+  @media(max-width: 767px) {
+    position: fixed;
+  }
+}
+
+.panel-backdrop {
+  @media(max-width: 767px) {
+    opacity: 0 !important;
+    /*
+      No need for this, will close the panels from the stage editor
+    */
+    display: none !important;
+  }
+}
+
+
+.upload-photo-btn {
+  @media(max-width: 767px) {
+    &.is-in-header {
+      position: static !important;
+    }
+  }
+}
+
+
+.checkout-section {
+  @media(max-width: 767px) {
+    border-radius: 0px !important;
   }
 }

@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { EditorActions } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
 import { POSTER_H, POSTER_W } from "@/utils/editor";
+import { useDevice } from "@/Providers/DeviceProvider";
 
 interface Props {
   stageRef: React.RefObject<any>;
 }
 
 export default function EventsForZoomingAndPanning({ stageRef }: Props) {
+
+  const { isMobile } = useDevice();
+
   const dispatch = useDispatch();
   const { scale } = useSelector((state: RootState) => state.editor.view);
-  const PADDING = 60;
+  const PADDING = isMobile ? 20 : 60;
 
   const skipFitOnNextRender = useRef(false);
   const isInitialMount = useRef(true);
@@ -23,13 +27,7 @@ export default function EventsForZoomingAndPanning({ stageRef }: Props) {
     const container: any = document.querySelector('.editor-canvas-engine');
     const containerHolder: any = document.querySelector('.konvajs-content-holder');
 
-    console.log("updateStageAndPosition::", requestedScale);
-
-
     if (!stage || !container) return;
-
-    console.log("updateStageAndPosition, stage exists::");
-    console.log("updateStageAndPosition, container exists::", container);
 
     if (containerHolder.style.display === "none") {
       containerHolder.style.display = "block";
@@ -37,26 +35,32 @@ export default function EventsForZoomingAndPanning({ stageRef }: Props) {
 
     const { width: containerW, height: containerH } = container.getBoundingClientRect();
 
-    // DYNAMIC MAX SCALE: The scale required to make the poster width 
-    // exactly match the container width (minus padding).
-    const dynamicMaxScale = (containerW - PADDING) / POSTER_W;
+    // 1. Calculate the base scale (fitting exactly to container)
+    const fitToContainerScale = (containerW - PADDING) / POSTER_W;
 
-    // We clamp the scale: 
-    // - Lower bound: something small like 0.05
-    // - Upper bound: dynamicMaxScale (so it never grows wider than the container)
+    // 2. Set the MAX SCALE to be 1.5x the width of the container
+    // This allows the user to zoom in until the poster is 150% of the screen width
+    const dynamicMaxScale = fitToContainerScale * 2;
+
+    // 3. Clamp the scale
+    // Lower bound: 0.05
+    // Upper bound: 1.5x container width
     const newScale = Math.max(0.05, Math.min(requestedScale, dynamicMaxScale));
 
     const scaledW = POSTER_W * newScale;
     const scaledH = POSTER_H * newScale;
 
-    // Stage size calculation
+    // 4. Stage size calculation
+    // We ensure the stage is at least as large as the container, 
+    // or as large as the scaled poster + padding if it's zoomed in.
     const newStageW = Math.max(containerW, scaledW + PADDING);
     const newStageH = Math.max(containerH, scaledH + PADDING);
 
     stage.width(newStageW);
     stage.height(newStageH);
 
-    // Centering calculation
+    // 5. Centering calculation
+    // If scaledW > containerW, this will still center the "overflowing" poster
     const centerX = (newStageW - scaledW) / 2;
     const centerY = (newStageH - scaledH) / 2;
 
