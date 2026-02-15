@@ -51,7 +51,8 @@ export default function EditorMobileNavbar() {
           </div>
           <div className="nav-label">Redo</div>
         </button>
-        <button className="nav-item" onClick={() => {
+        {
+          /*<button className="nav-item" onClick={() => {
           dispatch(EditorActions.setMobileTextEditorPanelVisible(true))
         }}>
           <div className="nav-icon">
@@ -62,7 +63,8 @@ export default function EditorMobileNavbar() {
             </svg>
           </div>
           <div className="nav-label">Text</div>
-        </button>
+        </button>*/
+        }
         <button className="nav-item" onClick={() => {
           dispatch(EditorActions.setMobileTextColorPickerVisible(true))
         }}>

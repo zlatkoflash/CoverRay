@@ -2,6 +2,7 @@
 
 import { templatesActions } from '@/lib/features/templates/templatesSlice';
 import { AppDispatch, RootState } from '@/lib/store';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -55,12 +56,25 @@ export default function TemplateSelection() {
             <div className="magazine-preview">
               {
                 template.thumbnail_url !== null ? (
-                  <img src={template.thumbnail_url} alt={template.name} className="magazine-cover" />
+                  // <img src={template.thumbnail_url} alt={template.name} className="magazine-cover" />
+                  <Image src={template.thumbnail_url}
+                    alt={template.name}
+                    width={210} height={290}
+                    data-src={template.thumbnail_url}
+                    style={{
+                      objectFit: 'cover', objectPosition: 'center',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                    unoptimized={process.env.NODE_ENV === 'development'}
+                  />
                 ) : (
                   <div className="magazine-placeholder">{template.name}</div>
                 )
               }
-              <div className="magazine-price">{99}</div>
+              {
+                // <div className="magazine-price">{99}</div>
+              }
             </div>
             <div className="magazine-name">{template.name}</div>
           </div>

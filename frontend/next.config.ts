@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'yourcover.blob.core.windows.net',
+        port: '',
+        pathname: '/magazinefiles/**',
+      },
     ],
   },
 

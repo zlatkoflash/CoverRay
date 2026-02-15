@@ -3,6 +3,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateItem } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
+import EditorColorFullSpectrumButton from "./EditorColorFullSpectrumButton";
 
 const COLORS = [
   "#ffffff", // White
@@ -78,6 +79,12 @@ export default function EditorColor(
             />
           );
         })}
+
+        <EditorColorFullSpectrumButton
+          color={selectedColor()}
+          onChange={handleColorChange}
+        />
+
       </div>
     </div>
   );

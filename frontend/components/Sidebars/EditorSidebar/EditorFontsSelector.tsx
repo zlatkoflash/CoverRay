@@ -83,6 +83,7 @@ export default function EditorFontsSelector() {
     // { value: "Fjord One", label: "Fjord One", style: { fontFamily: "Fjord One" } }, //don't exist
     { value: "Gupter", label: "Gupter", style: { fontFamily: "Gupter" } },
     { value: "Limelight", label: "Limelight", style: { fontFamily: "Limelight" } },
+    { value: "Poppins", label: "Poppins", style: { fontFamily: "Poppins" } },
     // { value: "Londrina Shadow", label: "Londrina Shadow", style: { fontFamily: "Londrina Shadow" } }, // don't exist
     // { value: "Monoton", label: "Monoton", style: { fontFamily: "Monoton" } }, // don't exist
     // { value: "Mystery Quest", label: "Mystery Quest", style: { fontFamily: "Mystery Quest" } }, // don't exist

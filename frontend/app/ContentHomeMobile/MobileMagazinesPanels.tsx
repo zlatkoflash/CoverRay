@@ -76,7 +76,7 @@ export default function MobileMagazinesPanels() {
               <div className="magazine-preview">
                 {template.thumbnail_url && template.thumbnail_url !== "" ? (
                   /* Show Image if it exists */
-                  <Image src={template.thumbnail_url} alt={template.name} width={1000} height={1000} />
+                  <Image src={template.thumbnail_url} alt={template.name} width={300} height={400} data-src={template.thumbnail_url} />
                 ) : (
                   /* Show Placeholder if image is null */
                   <div className="magazine-placeholder">

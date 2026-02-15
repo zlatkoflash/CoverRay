@@ -1,0 +1,194 @@
+body {
+  --delta: 10px;
+}
+
+* > *:last-child {
+  margin-bottom: 0px !important;
+}
+
+.btn {
+  text-decoration: none;
+}
+
+.nav-step {
+  text-decoration: none;
+}
+
+.main-container {
+  height: calc(100vh - 6.4 * var(--delta));
+  margin-top: 0px;
+  padding-top: calc(6.4 * var(--delta));
+  margin-inline: auto;
+  max-width: calc(192 * var(--delta));
+}
+
+.checkout-layout {
+  max-width: calc(140 * var(--delta));
+  margin-inline: auto;
+}
+
+.konvajs-content-holder {
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.editor-canvas-area {
+  position: relative;
+}
+.editor-canvas-area .editor-canvas-engine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: auto;
+}
+.modal-overlay {
+  overflow: auto;
+  position: fixed;
+}
+
+.z-button.loading {
+  cursor: not-allowed;
+  opacity: 0.8;
+  cursor: default;
+  pointer-events: none;
+}
+.z-button button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  cursor: default;
+  pointer-events: none;
+}
+
+.modal-input-group {
+  margin-bottom: calc(1 * var(--delta));
+}
+.modal-input-group .modal-input {
+  margin-bottom: 0;
+}
+
+.editor-tools.x2-in-row {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.canvas-toolbars-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.8 * var(--delta));
+  position: absolute;
+  left: calc(2 * var(--delta));
+  top: calc(2 * var(--delta));
+  z-index: 10;
+}
+.canvas-toolbars-wrapper .canvas-toolbar {
+  position: static;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 0px;
+    display: block;
+  }
+  body .screen {
+    position: static;
+  }
+}
+
+.mobile-header {
+  width: 100%;
+  padding-block: calc(1.2 * var(--delta));
+}
+.mobile-header img {
+  height: calc(3.1 * var(--delta));
+  width: auto;
+}
+.mobile-header.for-editor {
+  justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .magazine-preview > img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    -o-object-fit: cover;
+    -o-object-position: center;
+  }
+}
+
+.mobile-footer {
+  position: fixed;
+  left: 0px !important;
+  bottom: 0px !important;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .editor-canvas {
+    padding: 0px;
+  }
+}
+
+@media (max-width: 767px) {
+  .editor-canvas-area {
+    width: 100%;
+    height: 70vh;
+    --header-footer-height: calc(6.1*var(--delta) + 10.3*var(--delta));
+    height: calc(100vh - var(--header-footer-height));
+    height: calc(100dvh - var(--header-footer-height));
+  }
+}
+
+@media (max-width: 767px) {
+  .canvas-toolbars-wrapper {
+    display: none;
+  }
+}
+
+.footer-mobile-for-editor {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+}
+.footer-mobile-for-editor .mobile-footer {
+  position: static;
+}
+
+@media (max-width: 767px) {
+  .edit-panel {
+    position: fixed;
+  }
+}
+
+@media (max-width: 767px) {
+  .panel-backdrop {
+    opacity: 0 !important;
+    /*
+      No need for this, will close the panels from the stage editor
+    */
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .upload-photo-btn.is-in-header {
+    position: static !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .checkout-section {
+    border-radius: 0px !important;
+  }
+}/*# sourceMappingURL=Style.template.edits.css.map */

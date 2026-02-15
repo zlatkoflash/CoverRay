@@ -182,3 +182,20 @@
   font-style: normal;
   font-display: swap;
 }
+
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./Poppins-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}

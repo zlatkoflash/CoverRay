@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import * as EditorActions from '@/lib/features/editor/editorSlice';
 import { useSelector } from 'react-redux';
+import { POSTER_H, POSTER_W } from '@/utils/editor';
 
 export const useKonvaElementEvents = (item: any, items: any[]) => {
   const dispatch = useDispatch();
@@ -18,21 +19,15 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
   };
 
 
+  const onDragMove = (e: any) => {
+    console.log("onDragMove item:", item, selectedKonvaItem);
+    const dragBound = ___dragBoundFunc({ x: e.target.x(), y: e.target.y() }, e.target);
+    e.target.x(dragBound.x);
+    e.target.y(dragBound.y);
+  };
   const onDragEnd = (e: any) => {
-    // Optimization: Use item.id directly instead of .find() 
-    // since 'item' is already in scope from the argument
 
-    /*const updatedItem = items.find((i: any) => i.id === item.id);
-    if (!updatedItem) {
-      return;
-    }*/
-
-    /*dispatch(EditorActions.updatePosition({
-      // id: updatedItem.id,
-      id: item.id,
-      x: e.target.x(),
-      y: e.target.y(),
-    }));*/
+    // const dragBound = ___dragBoundFunc({ x: e.target.x(), y: e.target.y() });
 
     dispatch(EditorActions.updateItem({
       id: item.id,
@@ -44,5 +39,24 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
     }));
   };
 
-  return { onClick: onClick, onTap: onClick, onDragEnd };
+  const ___dragBoundFunc = (pos: { x: number; y: number }, kanvaObject: any) => {
+    // 1. Get the current dimensions
+    // If it's Text, ensure item.width is actually defined, 
+    // otherwise Konva defaults to the text width
+    console.log("item:", item, selectedKonvaItem);
+    const width = kanvaObject.width() || 0;
+    const height = kanvaObject.height() || 0;
+
+    // 2. Clamp logic
+    // We restrict the ABSOLUTE position (pos) to the poster bounds
+    const x = Math.max(0, Math.min(pos.x, POSTER_W - width));
+    const y = Math.max(0, Math.min(pos.y, POSTER_H - height));
+
+    console.log("dragBoundFunc", x, y, width);
+
+    return { x, y };
+  };
+
+  return { onClick: onClick, onTap: onClick, onDragEnd, onDragMove };
 };
+

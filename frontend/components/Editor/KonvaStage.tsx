@@ -13,6 +13,7 @@ import Konva from 'konva';
 import { IKonvaBaseCanvasItem } from '@/utils/interfaceTemplate';
 import ZKonvaTextComponent from './Elements/ZKonvaTextComponent';
 import ZKonvaImageComponent from './Elements/ZKonvaImageComponent';
+import FloatingEditorItem from './FloatingEditorItem/FloatingEditorItem';
 
 // Sub-component to handle "Background Cover" logic
 const BackgroundCover = ({ url, targetWidth, targetHeight, opacity = 1, onMouseDown, fillType = "cover", onClick, onTap }: {
@@ -396,6 +397,14 @@ export default function KonvaStage({
 
         </Layer>
       </Stage >
+
+      {
+        /**
+         * This is the floating editor item, it will be visible when an item is selected
+         */
+      }
+      <FloatingEditorItem />
+
     </>
   );
 }
