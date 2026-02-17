@@ -21,6 +21,11 @@ export interface ITemplateCategory {
    * Usually stores a Lucide icon name or a URL string
    */
   icon: string | null;
+
+  /** * text null (optional or nullable)
+   * if the category is empty string that mean that category is parent category, if the category have value for parent_category_ref that mean that is subcategory that belong to some category
+   */
+  parent_category_ref: number | null;
 }
 
 export interface ITemplateCategoryWithCount extends ITemplateCategory {

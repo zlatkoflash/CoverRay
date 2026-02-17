@@ -116,17 +116,24 @@ export default function Header(
           {
             // here customContinueButton come from out
             // customContinueButton !== undefined && customContinueButton
-            isTemplateEditor ? <BtnSaveForPaymentPurposesWrap /> : <Link href={_continueLink()}
-              className={`btn btn-primary `} id="headerCTA" onClick={() => {
-                console.log("nextStep()");
-              }}
-              style={{
-                pointerEvents: selectedTemplate == null ? "none" : "auto",
-                opacity: selectedTemplate == null ? 0.5 : 1,
-              }}
-            >
-              Continue →
-            </Link>
+            isTemplateEditor ? <BtnSaveForPaymentPurposesWrap /> :
+              <>
+                {
+                  _continueLink().indexOf('Editor/Template') === -1 ?
+                    <Link href={_continueLink()}
+                      className={`btn btn-primary `} id="headerCTA" onClick={() => {
+                        console.log("nextStep()");
+                      }}
+                      style={{
+                        pointerEvents: selectedTemplate == null ? "none" : "auto",
+                        opacity: selectedTemplate == null ? 0.5 : 1,
+                      }}
+                    >
+                      Continue →
+                    </Link> :
+                    null
+                }
+              </>
           }
           {
             // when we have custom button customContinueButton, we don't show 

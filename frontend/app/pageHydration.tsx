@@ -17,7 +17,9 @@ export default function HomePageHydration() {
     /**
      * When category is 0 it will load all templates
      */
-    dispatch(fetchTemplates(0));
+    // no need for fetching templates, with fetchCategories i am fetching the parent categories,
+    // subcategories for the first parent category and the templates for the subcategory
+    // dispatch(fetchTemplates(0));
     dispatch(templatesActions.setContinueButtonDisabled(true));
   }, []);
 

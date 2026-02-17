@@ -4,6 +4,7 @@ import { shopActions } from '@/lib/features/shop/shopSlice';
 import { RootState } from '@/lib/store';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import BCProduct from './BiCommerceComponents/BCProduct';
 
 // Define the data structure
 /*const PRODUCTS = [
@@ -23,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
   { id: 'tshirt', icon: '👕', name: 'T-Shirt', price: 19.95 },
 ];*/
 
-export default function MainProducts() {
+export default function MainProductsBC() {
 
   const products = useSelector((state: RootState) => state.shop.products);
   const PRODUCTS = products.main_products;
@@ -37,6 +38,20 @@ export default function MainProducts() {
   console.log("cartProductsItems inside store:", cartProductsItems);
 
   console.log(ACCESSORIES, "ACCESSORIES", "cartProductsItems:", cartProductsItems);
+
+
+  const bcState = useSelector((state: RootState) => state.bigCommerce);
+  const BCProducts = bcState.products;
+
+  /**
+   * 28 is the id for magazine products category
+   * 29 is the id for the category for the gifts products
+   */
+  const MagazineProducts = BCProducts.filter((product) => product.categories.includes(28));
+  const GiftsProducts = BCProducts.filter((product) => product.categories.includes(29));
+  const BCCart = bcState.cart;
+  console.log("BCProducts inside store:", BCProducts);
+  console.log("BCCart inside store:", BCCart);
 
 
   // State to track all selected IDs
@@ -54,6 +69,10 @@ export default function MainProducts() {
     return null;
   }
 
+
+  console.log("GiftsProducts:", GiftsProducts);
+
+
   return (
     <main className="checkout-main">
       {/* 1. MAIN PRODUCTS SECTION */}
@@ -63,7 +82,15 @@ export default function MainProducts() {
           <span className="required-badge">Select one or more</span>
         </div>
 
-        {PRODUCTS.map((product) => (
+
+        {
+          MagazineProducts.map((product) => (
+            <BCProduct key={product.id} product={product} />
+          ))
+        }
+
+
+        {/*PRODUCTS.map((product) => (
           <div
             key={product.id}
             className={`product-card ${cartProductsItems.some((item) => item.id === product.id) ? 'selected' : ''}`}
@@ -92,11 +119,12 @@ export default function MainProducts() {
             </div>
             <div className="product-price">${(product.default_price.unit_amount / 100).toFixed(2)}</div>
           </div>
-        ))}
+        ))*/}
       </div>
 
       {/* 2. UPSELL SECTION */}
-      <div className="checkout-section upsell-section">
+      {
+        /*<div className="checkout-section upsell-section">
         <div className="checkout-section-title">
           <span>Add a Frame</span>
           <span className="save-tag">Complete the Look</span>
@@ -126,7 +154,8 @@ export default function MainProducts() {
             </div>
           </div>
         ))}
-      </div>
+      </div>*/
+      }
 
       {/* 3. ACCESSORIES SECTION */}
       <div className="checkout-section upsell-section">
@@ -136,7 +165,12 @@ export default function MainProducts() {
         </div>
 
         <div className="accessories-grid">
-          {ACCESSORIES.map((product) => (
+          {
+            GiftsProducts.map((product) => (
+              <BCProduct key={product.id} product={product} type="gift-product" />
+            ))
+          }
+          {/*ACCESSORIES.map((product) => (
             <div
               key={product.id}
               className={`accessory-card ${cartProductsItems.some((item) => item.id === product.id) ? 'selected' : ''}`}
@@ -153,7 +187,7 @@ export default function MainProducts() {
               <div className="accessory-name">{product.name}</div>
               <div className="accessory-price">${product.default_price.unit_amount / 100}</div>
             </div>
-          ))}
+          ))*/}
         </div>
 
         <div className="shipping-note">

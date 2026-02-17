@@ -3,6 +3,7 @@ import editorReducer from './features/editor/editorSlice';
 import templateReducer from './features/templates/templatesSlice';
 import shopReducer from './features/shop/shopSlice';
 import authReducer from './features/auth/authSlice';
+import bigCommerceReducer from './bigcommerce/bigCommerceSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       template: templateReducer,
       shop: shopReducer,
       auth: authReducer,
+      bigCommerce: bigCommerceReducer,
     },
   });
 };

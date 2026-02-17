@@ -1,12 +1,12 @@
 "use client";
 
-import TemplateSelection from "@/components/grids/TemplateSelection";
 import HeaderWrap from "@/components/headers/HeadeWrap";
 import MobileHeader from "@/components/headers/MobileHeader";
 import SidebarLayouts from "@/components/Sidebars/Layouts/Index";
 import { useDevice } from "@/Providers/DeviceProvider";
 import ContentHomeMobile from "./ContentHomeMobile/Index";
 import MobileFooterHome from "@/components/footers/MobileFooterHome";
+import TemplateSelection from "@/components/grids/TemplateSelection";
 
 
 export default function HomePageContent() {
@@ -34,8 +34,10 @@ export default function HomePageContent() {
 
           <div className="main-container">
             <div className="screen active" id="screen1">
-              <div className="selection-layout">
-                <SidebarLayouts />
+              <div className="selection-layout selection-layout-full">
+                {
+                  // <SidebarLayouts />
+                }
                 <TemplateSelection />
               </div>
             </div>

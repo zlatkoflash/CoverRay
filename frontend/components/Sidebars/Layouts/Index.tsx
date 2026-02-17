@@ -33,10 +33,10 @@ export default function SidebarLayouts() {
           {categories.map((category) => (
             <div
               key={category.id}
-              className={`category-item ${selectedCategory === category.id ? 'selected' : ''}`}
+              className={`category-item ${selectedCategory?.id === category.id ? 'selected' : ''}`}
               onClick={() => {
                 // setSelectedCategory(category.id)
-                dispatch(templatesActions.setSelectedCategory(category.id));
+                dispatch(templatesActions.setSelectedCategory(category));
                 dispatch(fetchTemplates(category.id));
                 dispatch(templatesActions.setSelectedTemplate(null));
               }}

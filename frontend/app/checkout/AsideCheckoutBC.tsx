@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import PaymentButtons from './PaymenthButtons';
 import { SavingTotal, ShopTotal, ShopTotalShipping } from '@/lib/features/shop/shopSlice';
 import PaymenthButtonsBC from './PaymenthButtonsBC';
+import { IBCCartItem } from '@/utils/interfacesBigCommerce';
+import BCCartItem from './BiCommerceComponents/BCCartItem';
 
 /*const ALL_ITEMS = [
   { id: 'digital', name: 'Digital Download', price: 9.95, isUpsell: false },
@@ -24,7 +26,7 @@ interface AsideCheckoutProps {
   selectedIds: string[];
 }
 
-export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) {
+export default function AsideCheckoutBC({ selectedIds = [] }: AsideCheckoutProps) {
   const [thumbnail, setThumbnail] = useState<string>("");
   const shopState = useSelector((state: RootState) => state.shop);
   const selectedProductsSource = shopState.cardProductsItems;
@@ -33,6 +35,11 @@ export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) 
   const standard_shipping_for_gifts = shopState.products.standard_shipping_for_gifts;
   // const ALL_ITEMS = cartProductsItems;
   // console.log("ALL_ITEMS:", ALL_ITEMS);
+
+  const bigCommerceState = useSelector((state: RootState) => state.bigCommerce);
+  const bcCart = bigCommerceState.cart;
+  console.log("bcCart:", bcCart);
+
 
   useEffect(() => {
     const loadPreview = async () => {
@@ -64,6 +71,13 @@ export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) 
   // const savings = 19.50; // You can make this dynamic if needed
 
 
+  let totalItems: IBCCartItem[] = [];
+  if (bcCart === null) {
+    totalItems = [];
+  } else {
+    totalItems = [...bcCart.line_items.digital_items, ...bcCart.line_items.physical_items];
+  }
+
 
   return (
     <aside className="checkout-sidebar">
@@ -75,20 +89,23 @@ export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) 
       <div className="quality-badge">✓ Print-Ready Quality</div>
 
       <div className="price-summary">
-        {selectedProducts.map((item) => (
-          <div key={item.id} className={`price-row ${
-            // item.isUpsell 
-            item.id === ""
-              ? 'upsell' : ''}`}>
-            <span>
-              {item.name}
-              {
-                // item.shippingAdd ? ` (+$${item.shippingAdd.toFixed(2)})` : ''
-              }
-            </span>
-            <span>${(item.default_price.unit_amount / 100).toFixed(2)}</span>
-          </div>
-        ))}
+        {
+          // selectedProducts.map((item) => (
+          totalItems.map((item: IBCCartItem, index: number) => (
+            /*<div key={item.id} className={`price-row ${
+              // item.isUpsell 
+              item.id === ""
+                ? 'upsell' : ''}`}>
+              <span>
+                {item.name}
+                {
+                  // item.shippingAdd ? ` (+$${item.shippingAdd.toFixed(2)})` : ''
+                }
+              </span>
+              <span>${(item.default_price.unit_amount / 100).toFixed(2)}</span>
+            </div>*/
+            <BCCartItem item={item} key={index + '-' + item.id} />
+          ))}
 
         {ShopTotalShipping(shopState) > 0 && (
           <div className="price-row" id="shippingRow">
@@ -99,7 +116,10 @@ export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) 
 
         <div className="price-row total">
           <span>Total</span>
-          <span id="totalPrice">${ShopTotal(shopState).toFixed(2)}</span>
+          <span id="totalPrice">${
+            // ShopTotal(shopState).toFixed(2)
+            bcCart !== null ? bcCart?.base_amount.toFixed(2) : "0.00"
+          }</span>
         </div>
       </div>
 
@@ -109,7 +129,8 @@ export default function AsideCheckout({ selectedIds = [] }: AsideCheckoutProps) 
         </div>
       )}
 
-      <PaymentButtons />
+      {/* <PaymentButtons /> */}
+      <PaymenthButtonsBC />
 
       <div className="trust-indicators">
         <span>🔒 Secure</span>

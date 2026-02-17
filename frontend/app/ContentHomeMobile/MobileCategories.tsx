@@ -34,10 +34,10 @@ export default function MobileCategories() {
           {categories.map((category) => (
             <div
               key={`category-${category.id}`}
-              className={`collection-card ${selectedCategory === category.id ? 'selected' : ''}`}
+              className={`collection-card ${selectedCategory?.id === category.id ? 'selected' : ''}`}
               data-category={category.id}
               onClick={() => {
-                dispatch(templatesActions.setSelectedCategory(category.id));
+                dispatch(templatesActions.setSelectedCategory(category));
                 dispatch(fetchTemplates(category.id));
                 dispatch(templatesActions.setSelectedTemplate(null));
               }}

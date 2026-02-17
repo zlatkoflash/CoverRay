@@ -3,6 +3,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { POSTER_H } from '@/utils/editor';
+import PhotoUploadOverlay from './PhotoUploadOverlay';
 
 const KonvaStageNoSSR = dynamic(() => import('@/components/Editor/KonvaStage'), {
   ssr: false
@@ -75,6 +76,7 @@ export default function EditorWrap({
         dimensions={{ width: dimensions.width, height: dimensions.height }}
       // initialItems={template.pages[0].children}
       />
+      <PhotoUploadOverlay />
     </div>
   );
 }

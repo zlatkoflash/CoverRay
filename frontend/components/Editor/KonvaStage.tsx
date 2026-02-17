@@ -308,11 +308,14 @@ export default function KonvaStage({
               shadowBlur={20}         // How soft the shadow is
               shadowOpacity={0.5}     // Transparency (0 to 1)
               shadowOffset={{ x: 10, y: 10 }} // Position: positive x/y moves it right/down
-              onMouseDown={(e: any) => {
+              /*onMouseDown={(e: any) => {
                 console.log("Rect onMouseDown");
                 // setSelectedId(null);
                 dispatch(EditorActions.setselectedKonvaItem(null));
-              }}
+              }}*/
+              onClick={onClickOverCover}
+              onTap={onClickOverCover}
+              onMouseDown={onClickOverCover}
             />
 
             {/* 2. Background Image with Cover logic */}
@@ -323,11 +326,7 @@ export default function KonvaStage({
                 targetHeight={POSTER_H}
                 onClick={onClickOverCover}
                 onTap={onClickOverCover}
-                onMouseDown={(e: any) => {
-                  console.log("Cover onMouseDown");
-                  // setSelectedId(null);
-                  dispatch(EditorActions.setselectedKonvaItem(null));
-                }}
+                onMouseDown={onClickOverCover}
               />
             )}
 

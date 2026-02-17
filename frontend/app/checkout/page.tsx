@@ -5,6 +5,7 @@ import { getApiData } from "@/utils/api";
 import { IStripeProduct } from "@/utils/interfacesStripe";
 import HydrateTheShop from "./HydrateTheShop";
 import DesktopMobileContent from "./DesktopMobileContent";
+import HydrateTheBigCommerce from "./HydrateTheBigCommerce";
 
 export default async function CheckoutPage() {
 
@@ -30,6 +31,8 @@ export default async function CheckoutPage() {
       paymentProcessingStatus: "idle",
       paymentProcessingMessage: "",
     }} />
+
+    <HydrateTheBigCommerce />
 
     <DesktopMobileContent />
 

@@ -18,6 +18,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/magazinefiles/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**.bigcommerce.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 

@@ -5,6 +5,9 @@ import { useDevice } from "@/Providers/DeviceProvider";
 import MainProducts from "./MainProducts";
 import AsideCheckout from "./AsideCheckout";
 import CheckoutMobileContent from "./CheckoutMobile/Index";
+import MainProductsBC from "./MainProductsBC";
+import AsideCheckoutBC from "./AsideCheckoutBC";
+import CheckoutMobileContentBC from "./CheckoutMobile/IndexBC";
 
 export default function DesktopMobileContent() {
 
@@ -14,7 +17,10 @@ export default function DesktopMobileContent() {
 
   if (isMobile === true) {
     return <>
-      <CheckoutMobileContent />
+      {
+        // <CheckoutMobileContent />
+      }
+      <CheckoutMobileContentBC />
     </>
   }
 
@@ -24,8 +30,12 @@ export default function DesktopMobileContent() {
     <div className={`main-container `}>
       <div className="screen active" id="screen2">
         <div className="checkout-layout">
-          <MainProducts />
-          <AsideCheckout selectedIds={[]} />
+          {
+            // <MainProducts />
+          }
+          <MainProductsBC />
+          {/* <AsideCheckout selectedIds={[]} /> */}
+          <AsideCheckoutBC selectedIds={[]} />
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ const ZSelectDropdown = forwardRef<HTMLDivElement, ZSelectDropdownProps>(
     return (
       <div
         ref={containerRef}
-        className={className || ""}
+        className={`z-select-dropdown ${className || ""}`}
         style={{ position: "relative" }}
       >
         {
@@ -101,6 +101,7 @@ const ZSelectDropdown = forwardRef<HTMLDivElement, ZSelectDropdownProps>(
           }}>
             {options.map((option) => (
               <div
+                className="z-list-item"
                 key={option.value}
                 onClick={() => {
                   onSelect(option.value);

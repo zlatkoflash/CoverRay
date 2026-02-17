@@ -4,7 +4,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ITemplateState {
   categories: ITemplateCategoryWithCount[];
-  selectedCategory: number;
+  subcategories: ITemplateCategoryWithCount[];
+  selectedCategory: ITemplateCategoryWithCount | null;
+  selectedSubCategory: ITemplateCategoryWithCount | null;
+  // selectedCategory: number;
   templates: ITemplate[];
   selectedTemplate: ITemplate | null;
 
@@ -22,7 +25,9 @@ interface ITemplateState {
 
 const initialState: ITemplateState = {
   categories: [],
-  selectedCategory: 0,
+  subcategories: [],
+  selectedCategory: null,
+  selectedSubCategory: null,
   templates: [],
   selectedTemplate: null,
   ContinueButttonDisabled: false,
@@ -38,8 +43,11 @@ export const templatesSlice = createSlice({
     setCategories: (state, action: PayloadAction<ITemplateCategoryWithCount[]>) => {
       state.categories = action.payload;
     },
-    setSelectedCategory: (state, action: PayloadAction<number>) => {
+    setSelectedCategory: (state, action: PayloadAction<ITemplateCategoryWithCount | null>) => {
       state.selectedCategory = action.payload;
+    },
+    setSelectedSubCategory: (state, action: PayloadAction<ITemplateCategoryWithCount | null>) => {
+      state.selectedSubCategory = action.payload;
     },
     setTemplates: (state, action: PayloadAction<ITemplate[]>) => {
       state.templates = action.payload;
@@ -69,7 +77,19 @@ export const templatesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        state.categories = action.payload.categories;
+        state.subcategories = action.payload.subcategories;
+        state.templates = action.payload.templates;
+        state.selectedCategory = action.payload.categories[0];
+        state.selectedSubCategory = null;
+      })
+      .addCase(fetchSubcategories.fulfilled, (state, action) => {
+        state.subcategories = action.payload.subcategories;
+        state.templates = action.payload.templates;
+        state.selectedSubCategory = null;
+      })
+      .addCase(fetchSubcategories.rejected, (state, action) => {
+        console.error('Failed to fetch subcategories:', action.error);
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         console.error('Failed to fetch categories:', action.error);
@@ -89,21 +109,47 @@ export const fetchCategories = createAsyncThunk(
     const data = await getApiData<{
       ok: boolean;
       categories: ITemplateCategoryWithCount[];
+      subcategories: ITemplateCategoryWithCount[];
+      templates: ITemplate[];
     }>("/templates/get-categories", "POST", {}, "not-authorize", "application/json");
     console.log("categories:", data.categories);
-    return data.categories;
+    // return data.categories;
+    return data;
+  }
+);
 
+export const fetchSubcategories = createAsyncThunk(
+  'templates/fetchSubcategories',
+  // Ray need labels
+  async (parentCategory_id: number) => {
+    const data = await getApiData<{
+      ok: boolean;
+      subcategories: ITemplateCategoryWithCount[];
+      templates: ITemplate[];
+    }>('/templates/get-subcategories', 'POST', {
+      // category_label: categoryLabel 
+      parentCategory_id
+    }, 'not-authorize', 'application/json');
+    console.log('subcategories:', data.subcategories);
+    // return data.subcategories;
+    return data;
   }
 );
 
 export const fetchTemplates = createAsyncThunk(
   'templates/fetchTemplates',
-  async (categoryId: number) => {
+  async (
+    categoryId: number,
+    // Ray is forcing with labels
+    // { categoryLabel, subcategoryLabel }: { categoryLabel: string, subcategoryLabel: string }
+  ) => {
     const data = await getApiData<{
       ok: boolean;
       templates: ITemplate[];
-    }>("/templates/get-templates", "POST", { category_id: categoryId }, "not-authorize", "application/json");
-    console.log("templates:", data.templates);
+    }>("/templates/get-templates", "POST", {
+      category_id: categoryId
+    }, "not-authorize", "application/json");
+    console.log("templates loaded for category:", categoryId, data.templates);
     // return [];
     return data.templates;
 

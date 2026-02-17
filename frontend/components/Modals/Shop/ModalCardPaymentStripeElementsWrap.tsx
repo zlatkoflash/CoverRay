@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import ModalCardPayment from "./ModalCardPayment";
 import { loadStripe } from "@stripe/stripe-js";
 import { zconfig } from "@/config/config";
+import ModalCardPaymentBC from "./ModalCardPaymentBC";
 
 // 1. Initialize stripePromise OUTSIDE the component
 // Replace the string with your actual "Publishable key" from Stripe Dashboard
@@ -14,8 +15,13 @@ const stripePromise = loadStripe(
 
 export default function ModalCardPaymentStripeElementsWrap() {
   return (
-    <Elements stripe={stripePromise}>
-      <ModalCardPayment />
-    </Elements>
+    <>
+      {
+        <Elements stripe={stripePromise}>
+          {/*<ModalCardPayment />*/}
+          <ModalCardPaymentBC />
+        </Elements>
+      }
+    </>
   );
 }
