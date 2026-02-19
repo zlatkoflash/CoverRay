@@ -55,7 +55,7 @@ export const getApiData = async <T = any>(
       },
       // This is the magic part for Vercel/Next.js caching
       next: {
-        revalidate: 3600, // Cache for 1 hour (in seconds)
+        revalidate: false, // Cache for 1 hour (in seconds)
         tags: ['templates'] // Useful for manual cache clearing later
       }
       // credentials: 'include',
