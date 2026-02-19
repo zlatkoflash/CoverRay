@@ -4,6 +4,7 @@ import { RootState } from "@/lib/store";
 import { EditorActions } from "@/lib/features/editor/editorSlice";
 import MobileEditTextColorPanel from "./MobileEditTextColorPanel";
 import MobileEditTextSizePanel from "./MobileEditTextSizePanel";
+import MobileEditFontStyle from "./MobileEditFontStyle";
 
 export default function MobileEditorPanels() {
 
@@ -16,12 +17,15 @@ export default function MobileEditorPanels() {
     <div className={`panel-backdrop ${stateEditor.mobileTextEditorPanelVisible
       || stateEditor.mobileTextColorPickerVisible
       || stateEditor.mobileTextFontSizePickerVisible
+      || stateEditor.mobileFontStylePanelVisible
       ? "visible" : ""}`} onClick={() => {
         dispatch(EditorActions.setMobileTextEditorPanelVisible(false));
         dispatch(EditorActions.setMobileTextColorPickerVisible(false));
         dispatch(EditorActions.setMobileTextFontSizePickerVisible(false));
+        dispatch(EditorActions.setMobileFontStylePanelVisible(false));
       }}></div>
     <MobileEditTextPanel />
+    <MobileEditFontStyle />
     <MobileEditTextColorPanel />
     <MobileEditTextSizePanel />
   </>

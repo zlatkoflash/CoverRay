@@ -83,6 +83,7 @@ interface EditorState {
   mobileTextEditorPanelVisible: boolean;
   mobileTextColorPickerVisible: boolean;
   mobileTextFontSizePickerVisible: boolean;
+  mobileFontStylePanelVisible: boolean;
 
 }
 
@@ -119,6 +120,7 @@ const initialState: EditorState = {
   mobileTextEditorPanelVisible: false,
   mobileTextColorPickerVisible: false,
   mobileTextFontSizePickerVisible: false,
+  mobileFontStylePanelVisible: false,
 
 };
 
@@ -404,6 +406,9 @@ export const editorSlice = createSlice({
     },
     setMobileTextFontSizePickerVisible: (state, action: PayloadAction<boolean>) => {
       state.mobileTextFontSizePickerVisible = action.payload;
+    },
+    setMobileFontStylePanelVisible: (state, action: PayloadAction<boolean>) => {
+      state.mobileFontStylePanelVisible = action.payload;
     },
   },
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { EditorActions } from "@/lib/features/editor/editorSlice";
+import EditorColorFullSpectrumButton from "@/components/Sidebars/EditorSidebar/EditorColorFullSpectrumButton";
+import { EditorActions, updateItem } from "@/lib/features/editor/editorSlice";
 import { RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +17,8 @@ export default function MobileEditTextColorPanel() {
   const colors = [
     "#1a1a1a", "#ffffff", "#ef4444", "#f59e0b",
     "#10b981", "#3f51b5", "#8b5cf6", "#ec4899",
-    "#64748b", "#f97316", "#14b8a6", "#6366f1"
+    "#64748b", "#f97316", "#14b8a6",
+    // "#6366f1"
   ];
 
   const handleColorClick = (color: string) => {
@@ -33,6 +35,8 @@ export default function MobileEditTextColorPanel() {
   const handleClose = () => {
     dispatch(EditorActions.setMobileTextColorPickerVisible(false));
   };
+
+
 
   return (
     <div className={`edit-panel ${stateEditor.mobileTextColorPickerVisible ? "visible" : ""}`} id="color-panel">
@@ -67,6 +71,10 @@ export default function MobileEditTextColorPanel() {
               </div>
             );
           })}
+          <EditorColorFullSpectrumButton
+            color={currentColor}
+            onChange={handleColorClick}
+          />
         </div>
       </div>
     </div>
