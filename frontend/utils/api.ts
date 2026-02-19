@@ -3,6 +3,8 @@
  */
 "use server"
 
+// export const runtime = 'edge';
+
 import { zconfig } from "@/config/config";
 import { createServerSupabase } from "./supabaseServer";
 // import { createClient } from "./supabase";
@@ -51,6 +53,11 @@ export const getApiData = async <T = any>(
         // this auth is for the REST-API, the REST-API must be accesible only from next.js
         // "Authorization": `Basic ${base64Credentials}`
       },
+      // This is the magic part for Vercel/Next.js caching
+      next: {
+        revalidate: 3600, // Cache for 1 hour (in seconds)
+        tags: ['templates'] // Useful for manual cache clearing later
+      }
       // credentials: 'include',
       // body: JSON.stringify(data)
     }

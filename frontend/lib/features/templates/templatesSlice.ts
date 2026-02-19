@@ -112,6 +112,8 @@ export const fetchCategories = createAsyncThunk(
       subcategories: ITemplateCategoryWithCount[];
       templates: ITemplate[];
     }>("/templates/get-categories", "POST", {}, "not-authorize", "application/json");
+
+    console.log("data for templates/get-categories:", data);
     console.log("categories:", data.categories);
     // return data.categories;
     return data;
