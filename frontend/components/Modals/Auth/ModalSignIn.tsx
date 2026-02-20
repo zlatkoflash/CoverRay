@@ -47,6 +47,11 @@ export default function ModalSignIn() {
           // user: loginDetails.data.user
         }
       );
+
+      // 2. STOP. Wait for the Auth listener to settle.
+      // This prevents the "Refresh Token Not Found" error caused by double-dipping.
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       console.log("setSession:", data, error);
       if (error) {
         dispatch(authActions.setLogingProcessingStatus("error"));
