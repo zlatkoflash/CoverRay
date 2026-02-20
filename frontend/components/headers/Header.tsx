@@ -91,7 +91,7 @@ export default function Header(
               style={{
                 pointerEvents: "none"
               }}
-              href="/Checkout" className={`nav-step ${isCheckout ? "active" : ""}`} onClick={() => {
+              href="/" className={`nav-step ${isCheckout ? "active" : ""}`} onClick={() => {
                 // console.log("goToScreen(1):");
               }}>
               <div className="nav-step-number">3</div>
@@ -160,7 +160,7 @@ export default function Header(
             }} className="btn btn-primary">Logout</Link>
           }
           {
-            authState.user === null && <Link href="/Login" onClick={(e) => {
+            authState.user === null && <Link href="/" onClick={(e) => {
               console.log("login");
               e.preventDefault();
               dispatch(authActions.setModalSignInOpen({

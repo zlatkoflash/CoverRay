@@ -160,7 +160,7 @@ export default function TemplateSelection() {
           <Link
             href={`/Editor/Template/${template.slug}`}
             key={template.id}
-            className={`magazine-card ${selectedTemplate?.id === template.id ? 'selected-' : ''
+            className={`magazine-card ${selectedTemplate?.id === template.id ? 'selected' : ''
               }`}
             onClick={() => {
               // handleSelect(template.id, template.name)
