@@ -40,7 +40,9 @@ export default function ModalOrderSuccess() {
           height: "100%",
           background: "transparent",
         }}
-        onClick={() => handleFinalize("/")}
+        onClick={() => {
+          // handleFinalize("/")
+        }}
       ></div>
 
       <div className="modal-content">
@@ -48,26 +50,29 @@ export default function ModalOrderSuccess() {
         <div className="modal-title">Order Complete!</div>
         <div className="modal-message">
           Your custom Dogue magazine is on its way! Check your email for confirmation.
+          <p>(Ricardo will update Text)</p>
         </div>
 
         <div className="modal-actions">
           {/* View Order: Redirect to account or orders page */}
           <button
             className="modal-btn primary"
-            onClick={() => handleFinalize("/account/orders")}
+            onClick={() => handleFinalize("/")}
           >
-            View Order
+            close and continue shopping
           </button>
 
           {/* Create Another: Redirect to home/editor */}
-          <button
-            className="modal-btn text"
-            onClick={() => handleFinalize("/")}
-          >
-            Create Another
-          </button>
+          {
+            /*<button
+              className="modal-btn text"
+              onClick={() => handleFinalize("/")}
+            >
+              Create Another
+            </button> */
+          }
         </div>
       </div>
-    </div>
+    </div >
   );
 }

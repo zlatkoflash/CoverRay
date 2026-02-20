@@ -7,6 +7,7 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
   const dispatch = useDispatch();
 
   const selectedKonvaItem = useSelector((state: any) => state.editor.selectedKonvaItem);
+  const editorState = useSelector((state: any) => state.editor);
 
   const onClick = () => {
     if (item.id === selectedKonvaItem?.id) {
@@ -31,6 +32,23 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
 
     console.log("onDragEnd item:", item, selectedKonvaItem);
 
+    // if(editorState.)
+    // const latestHistoryItem = editorState.history[editorState.history.length - 1];
+    /*if (e.target.x() === latestHistoryItem.x && e.target.y() === latestHistoryItem.y) {
+      // return;
+    }
+    else {
+
+      dispatch(EditorActions.updateItem({
+        id: item.id,
+        changes: {
+          x: e.target.x(),
+          y: e.target.y(),
+        },
+        addToHistory: true
+      }));
+    }*/
+
     dispatch(EditorActions.updateItem({
       id: item.id,
       changes: {
@@ -39,6 +57,7 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
       },
       addToHistory: true
     }));
+
   };
 
   const ___dragBoundFunc = (pos: { x: number; y: number }, kanvaObject: any) => {
