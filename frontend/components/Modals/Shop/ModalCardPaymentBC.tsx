@@ -75,7 +75,7 @@ export default function ModalCardPayment() {
     console.log("customerBCData:", customerBCData);
     if (customerBCData.success !== true) {
       dispatch(shopActions.setPaymentProcessingStatus("error"));
-      dispatch(shopActions.setPaymentProcessingMessage("Error creating / generating user in BC. Please try again later."));
+      dispatch(shopActions.setPaymentProcessingMessage("Error creating / generating user in BigCommerce. Please try again later."));
       return;
     }
     const bcCustomer = customerBCData.customer as IBCCustomer;
