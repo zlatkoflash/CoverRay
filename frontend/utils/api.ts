@@ -116,6 +116,14 @@ export const getApiData = async <T = any>(
     /*console.log("options for the route:", options);
     console.log("routeURL:", routeURL);
     console.log(zsettings.apiURL, slug);*/
+
+    if (slug.indexOf('templates') !== -1) {
+      options.next = {
+        revalidate: false, // Cache for 1 hour (in seconds)
+        tags: ['templates'] // Useful for manual cache clearing later
+      }
+    }
+
     console.log("routeURL:", routeURL);
     rawData = await fetch(routeURL, options);
 
