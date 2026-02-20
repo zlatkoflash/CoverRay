@@ -16,7 +16,15 @@ import { createBrowserClient, createServerClient } from '@supabase/ssr'
 export function createClient() {
   return createBrowserClient(
     zconfig.supabase.url,
-    zconfig.supabase.anon
+    zconfig.supabase.anon,
+    {
+      cookieOptions: {
+        name: 'sb-auth-token', // Standard name
+        path: '/',
+        sameSite: 'lax',
+        secure: true, // Crucial for HTTPS/Vercel
+      },
+    }
   )
 }
 
