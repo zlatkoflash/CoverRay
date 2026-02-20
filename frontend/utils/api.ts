@@ -57,10 +57,10 @@ export const getApiData = async <T = any>(
 
       // This is the magic part for Vercel/Next.js caching
       // link to clear the cache: https://cover-ray.vercel.app/api/cache-clear?token=derkoskiA1&tag=templates
-      next: {
+      /*next: {
         revalidate: false, // Cache for 1 hour (in seconds)
         tags: ['templates'] // Useful for manual cache clearing later
-      }
+      }*/
       // credentials: 'include',
       // body: JSON.stringify(data)
     }
