@@ -49,7 +49,7 @@ export default function ModalOrderSuccess() {
         <div className="modal-icon success">🎉</div>
         <div className="modal-title">Order Complete!</div>
         <div className="modal-message">
-          Your custom Dogue magazine is on its way! Check your email for confirmation.
+          Your custom magazine is on its way! Check your email for confirmation.
           <p>(Ricardo will update Text)</p>
         </div>
 
@@ -59,7 +59,7 @@ export default function ModalOrderSuccess() {
             className="modal-btn primary"
             onClick={() => handleFinalize("/")}
           >
-            close and continue shopping
+            Close and continue shopping
           </button>
 
           {/* Create Another: Redirect to home/editor */}
