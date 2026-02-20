@@ -15,9 +15,10 @@ import ModalSignIn from "@/components/Modals/Auth/ModalSignIn";
 import ModalSignUp from "@/components/Modals/Auth/ModalSignUp";
 import AuthWatcher from "@/components/auth/AuthWatcher";
 import ModalCardPayment from "@/components/Modals/Shop/ModalCardPayment";
-import ModalCardPaymentStripeElementsWrap from "@/components/Modals/Shop/ModalCardPaymentStripeElementsWrap";
+// import ModalCardPaymentStripeElementsWrap from "@/components/Modals/Shop/ModalCardPaymentStripeElementsWrap";
 import ModalOrderSuccess from "@/components/Modals/Shop/ModalOrderSuccess";
 import { DeviceProvider } from "@/Providers/DeviceProvider";
+// import ModalCardPaymentBC from "@/components/Modals/Shop/ModalCardPaymentBC";
 
 /*const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,7 +71,9 @@ export default function RootLayout({
 
             <ModalSignIn />
             <ModalSignUp />
-            <ModalCardPaymentStripeElementsWrap />
+
+
+
             <ModalOrderSuccess />
           </DeviceProvider>
 

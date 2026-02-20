@@ -6,6 +6,8 @@ import { IStripeProduct } from "@/utils/interfacesStripe";
 import HydrateTheShop from "./HydrateTheShop";
 import DesktopMobileContent from "./DesktopMobileContent";
 import HydrateTheBigCommerce from "./HydrateTheBigCommerce";
+import ModalCardPaymentBC from "@/components/Modals/Shop/ModalCardPaymentBC";
+import ModalCardPaymentStripeElementsWrap from "@/components/Modals/Shop/ModalCardPaymentStripeElementsWrap";
 
 export default async function CheckoutPage() {
 
@@ -35,6 +37,8 @@ export default async function CheckoutPage() {
     <HydrateTheBigCommerce />
 
     <DesktopMobileContent />
+
+    <ModalCardPaymentStripeElementsWrap />
 
   </>;
 }

@@ -22,7 +22,7 @@ import { IStripeCustomer, IStripePaymentIntent } from "@/utils/interfacesStripe"
 import { BC_CompleteOrderFromCart, BC_getCart, BC_GetOrCreateUserByEmail } from "@/lib/bigcommerce/api";
 import { IBCCartItem, IBCCustomer } from "@/utils/interfacesBigCommerce";
 
-export default function ModalCardPayment() {
+export default function ModalCardPaymentBC() {
   const clientSupabase = createClient();
   const router = useRouter();
   const stripe = useStripe();
