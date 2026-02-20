@@ -118,7 +118,7 @@ export default function BCProduct({ product, type = "default-product" }: { produ
             productVariants()
           }
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '.5rem', opacity: addingToCart ? 0.5 : 1, pointerEvents: addingToCart ? 'none' : 'auto', cursor: addingToCart ? 'default' : 'pointer' }}>
-            <button type="button" className="add-qty-btn" onClick={() => {
+            <button type="button" className="add-qty-btn checkout-btn" onClick={() => {
               addToCart();
             }}>
               {addingToCart ? "Adding to cart..." : "+ Add"}
@@ -180,7 +180,7 @@ export default function BCProduct({ product, type = "default-product" }: { produ
               // (product.default_price.unit_amount / 100).toFixed(2)
               (getCurrentPrice()).toFixed(2)
             }</div>
-          <button type="button" className="add-qty-btn" style={{ opacity: addingToCart ? 0.5 : 1, pointerEvents: addingToCart ? 'none' : 'auto', cursor: addingToCart ? 'default' : 'pointer' }} onClick={() => {
+          <button type="button" className="add-qty-btn checkout-btn" style={{ opacity: addingToCart ? 0.5 : 1, pointerEvents: addingToCart ? 'none' : 'auto', cursor: addingToCart ? 'default' : 'pointer' }} onClick={() => {
 
             addToCart();
           }}>
