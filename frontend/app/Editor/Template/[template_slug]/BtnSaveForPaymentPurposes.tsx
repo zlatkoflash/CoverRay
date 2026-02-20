@@ -116,7 +116,7 @@ export default function BtnSaveForPaymentPurposes() {
       GetKonvaBlob,
       getKonvaPDF
     });
-    setIsProcessing(false);
+    // setIsProcessing(false);
   }
 
   return (
@@ -144,6 +144,8 @@ export default function BtnSaveForPaymentPurposes() {
         style={{
           // pointerEvents: continueButtonDisabled ? "none" : "auto",
           // opacity: continueButtonDisabled ? 0.5 : 1,
+          pointerEvents: isProcessing ? "none" : "auto",
+          opacity: isProcessing ? 0.5 : 1,
         }}
       >
         {isProcessing ? "Processing..." : "Continue →"}
