@@ -19,10 +19,9 @@ export function createClient() {
     zconfig.supabase.anon,
     {
       cookieOptions: {
-        name: 'sb-auth-token', // Standard name
         path: '/',
         sameSite: 'lax',
-        secure: true, // Crucial for HTTPS/Vercel
+        secure: process.env.NODE_ENV === 'production', // Only true on Vercel
       },
     }
   )

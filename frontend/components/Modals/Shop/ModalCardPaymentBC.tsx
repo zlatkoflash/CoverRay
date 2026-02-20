@@ -132,7 +132,7 @@ export default function ModalCardPayment() {
       email: authState.user?.email,
       // name: authState.user?.name,
     }, "authorize", "application/json");
-    console.log("stripeCustomerInfo", stripeCustomerInfo);
+    console.log("stripeCustomerInfo:", stripeCustomerInfo);
     if (!stripeCustomerInfo.stripeCustomer) {
       dispatch(shopActions.setPaymentProcessingStatus("error"));
       dispatch(shopActions.setPaymentProcessingMessage("Stripe customer not found / error creating customer"));

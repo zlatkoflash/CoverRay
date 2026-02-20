@@ -7,6 +7,7 @@
 
 import { zconfig } from "@/config/config";
 import { createServerSupabase } from "./supabaseServer";
+import { cookies } from "next/headers";
 // import { createClient } from "./supabase";
 // import { createServerClient } from "@supabase/ssr";
 // import { IPageInterface } from "@/app/PagesInterfaces";
@@ -29,6 +30,12 @@ export const getApiData = async <T = any>(
 
 
   const supabase = await createServerSupabase();
+
+  // DEBUG 1: Is the cookie actually reaching the server?
+  const cookieStore = await cookies();
+  const hasAuthCookie = cookieStore.has(`sb-ertwwpehoboogemlqcry-auth-token`);
+  console.log("DEBUG: Does server see auth cookie?", hasAuthCookie);
+
 
   // console.log(process.env.WP_APP_PASSWORD);
 
@@ -79,6 +86,10 @@ export const getApiData = async <T = any>(
       // 1. Get the session
       const { data: { session }, error } = await supabase.auth.getSession();
 
+      console.log("authorize after await supabase.auth.getSession():", authorize);
+      console.log("session:", session);
+      console.log("error:", error);
+
       if (session) {
         authToken = session.access_token;
       } else {
@@ -123,6 +134,8 @@ export const getApiData = async <T = any>(
         tags: ['templates'] // Useful for manual cache clearing later
       }
     }
+
+    console.log("options:", options);
 
     console.log("routeURL:", routeURL);
     rawData = await fetch(routeURL, options);
