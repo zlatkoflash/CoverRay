@@ -29,6 +29,8 @@ export const useKonvaElementEvents = (item: any, items: any[]) => {
 
     // const dragBound = ___dragBoundFunc({ x: e.target.x(), y: e.target.y() });
 
+    console.log("onDragEnd item:", item, selectedKonvaItem);
+
     dispatch(EditorActions.updateItem({
       id: item.id,
       changes: {

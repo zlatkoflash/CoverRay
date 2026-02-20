@@ -258,6 +258,8 @@ export const editorSlice = createSlice({
         if (state.selectedKonvaItem && state.selectedKonvaItem.id === id) {
           state.selectedKonvaItem = { ...state.selectedKonvaItem, ...changes };
         }
+
+        console.log("state.selectedKonvaItem, updateItem:", state.selectedKonvaItem);
       }
     },
 

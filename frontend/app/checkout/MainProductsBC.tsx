@@ -27,17 +27,17 @@ import BCProduct from './BiCommerceComponents/BCProduct';
 export default function MainProductsBC() {
 
   const products = useSelector((state: RootState) => state.shop.products);
-  const PRODUCTS = products.main_products;
-  const UPSELLS = products.frames_products;
-  const ACCESSORIES = products.unique_gifts_products;
+  // const PRODUCTS = products.main_products;
+  // const UPSELLS = products.frames_products;
+  // const ACCESSORIES = products.unique_gifts_products;
   const dispatch = useDispatch();
-  const standard_shipping_for_gifts = products.standard_shipping_for_gifts;
-  console.log("standard_shipping_for_gifts inside store:", standard_shipping_for_gifts);
+  // const standard_shipping_for_gifts = products.standard_shipping_for_gifts;
+  // console.log("standard_shipping_for_gifts inside store:", standard_shipping_for_gifts);
 
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
   console.log("cartProductsItems inside store:", cartProductsItems);
 
-  console.log(ACCESSORIES, "ACCESSORIES", "cartProductsItems:", cartProductsItems);
+  // console.log(ACCESSORIES, "ACCESSORIES", "cartProductsItems:", cartProductsItems);
 
 
   const bcState = useSelector((state: RootState) => state.bigCommerce);
@@ -64,10 +64,10 @@ export default function MainProductsBC() {
   };*/
 
 
-  if (standard_shipping_for_gifts.length === 0) {
+  /*if (standard_shipping_for_gifts.length === 0) {
     console.log("standard_shipping_for_gifts is empty, it must have values for the gifts products");
     return null;
-  }
+  }*/
 
 
   console.log("GiftsProducts:", GiftsProducts);
@@ -196,7 +196,7 @@ export default function MainProductsBC() {
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          Accessories ship separately (+${standard_shipping_for_gifts[0].default_price.unit_amount / 100} shipping each)
+          Accessories ship separately (+$6.5 shipping each)
         </div>
       </div>
     </main>

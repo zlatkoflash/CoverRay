@@ -2,7 +2,7 @@ import { IStripeProduct } from "@/utils/interfacesStripe";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface IShopState {
-  products: {
+  products?: {
     main_products: IStripeProduct[];
     frames_products: IStripeProduct[];
     unique_gifts_products: IStripeProduct[];
@@ -83,7 +83,7 @@ export const ShopTotal = (state: IShopState) => {
 }
 export const GetShippingProductForGiftProducts = (state: IShopState) => {
   const IhaveGiftProductInCart = state.cardProductsItems.some((item) => item.metadata.group === "unique-gift");
-  return IhaveGiftProductInCart ? state.products.standard_shipping_for_gifts[0] : null;
+  return IhaveGiftProductInCart ? state.products?.standard_shipping_for_gifts[0] : null;
 }
 export const ShopTotalShipping = (state: IShopState) => {
   const shippingProduct = GetShippingProductForGiftProducts(state);

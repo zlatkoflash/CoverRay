@@ -11,7 +11,7 @@ import ModalCardPaymentStripeElementsWrap from "@/components/Modals/Shop/ModalCa
 
 export default async function CheckoutPage() {
 
-  const products = await getApiData<{
+  /*const products = await getApiData<{
     ok: boolean;
     products: {
       main_products: IStripeProduct[];
@@ -21,12 +21,12 @@ export default async function CheckoutPage() {
     }
   }>("/stripe/get-products", "POST", {}, "not-authorize", "application/json")
   console.log("products", products);
-  console.log("products.products.standard_shipping_for_gifts", products.products.standard_shipping_for_gifts[0].default_price.unit_amount / 100);
+  console.log("products.products.standard_shipping_for_gifts", products.products.standard_shipping_for_gifts[0].default_price.unit_amount / 100);*/
 
   return <>
 
     <HydrateTheShop shopState={{
-      products: products.products,
+      // products: products.products,
       cardProductsItems: [],
       selectedStandardShipForGifts: null,
       showModalCardPayment: false,
