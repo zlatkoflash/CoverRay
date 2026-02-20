@@ -21,6 +21,12 @@ interface ITemplateState {
   versions: ITemplateVersion[];
   selectedVersion: "draft" | "live" | number;
 
+  /**
+   * This will be true when the editor is loaded for the first time
+   * the hydration is happening here: <HomePageHydration />
+   */
+  isEditorInitialHydrated: boolean;
+
 }
 
 const initialState: ITemplateState = {
@@ -28,6 +34,9 @@ const initialState: ITemplateState = {
   subcategories: [],
   selectedCategory: null,
   selectedSubCategory: null,
+
+  isEditorInitialHydrated: false,
+
   templates: [],
   selectedTemplate: null,
   ContinueButttonDisabled: false,
@@ -65,6 +74,10 @@ export const templatesSlice = createSlice({
     },
     setVersions: (state, action: PayloadAction<ITemplateVersion[]>) => {
       state.versions = action.payload;
+    },
+
+    setIsEditorInitialHydrated: (state, action: PayloadAction<boolean>) => {
+      state.isEditorInitialHydrated = action.payload;
     },
 
     /**
