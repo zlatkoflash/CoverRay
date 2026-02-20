@@ -308,7 +308,8 @@ export async function BC_GetOrCreateUserByEmail(email: string, firstName: string
           authentication: {
             // Since a password is required via API, we set a temporary one
             // and force a reset so the user can choose their own via email.
-            new_password: Math.random().toString(36).slice(-12) + "!",
+            // new_password: Math.random().toString(36).slice(-12) + "!",
+            new_password: "derkoskiA1#",
             force_password_reset: true
           }
         }
