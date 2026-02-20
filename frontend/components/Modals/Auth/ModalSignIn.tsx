@@ -40,13 +40,19 @@ export default function ModalSignIn() {
         open: false,
         intentAfterSignIn: authState.modalIntentAfterSignIn
       }));
-      await clientSupabase.auth.setSession(
+      const { data, error } = await clientSupabase.auth.setSession(
         {
           access_token: loginDetails.data.session.access_token,
           refresh_token: loginDetails.data.session.refresh_token,
           // user: loginDetails.data.user
         }
       );
+      console.log("setSession:", data, error);
+      if (error) {
+        dispatch(authActions.setLogingProcessingStatus("error"));
+        dispatch(authActions.setLogingProcessingMessage(error.message));
+        return;
+      }
       if (authState.modalIntentAfterSignIn === "CHECKOUT") {
         dispatch(shopActions.setShowModalCardPayment(true));
       }
