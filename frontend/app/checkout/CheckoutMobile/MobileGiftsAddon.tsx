@@ -9,9 +9,10 @@ export default function MobileGiftsAddon() {
 
   // 1. Data from Store
   const products = useSelector((state: RootState) => state.shop.products);
-  const ACCESSORIES = products.unique_gifts_products || [];
+  const ACCESSORIES = products?.unique_gifts_products || [];
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
-  const shippingCost = products?.standard_shipping_for_gifts?.[0]?.default_price?.unit_amount / 100 || "6.50";
+  // const shippingCost = products?.standard_shipping_for_gifts?.[0]?.default_price?.unit_amount / 100 || "6.50";
+  const shippingCost = "6.50";
 
   const handleToggleGift = (product: any) => {
     const isSelected = cartProductsItems.some((item) => item.id === product.id);

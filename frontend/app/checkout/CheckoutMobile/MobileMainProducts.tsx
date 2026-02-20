@@ -9,7 +9,7 @@ export default function MobileMainProducts() {
 
   // Data from Store
   const products = useSelector((state: RootState) => state.shop.products);
-  const PRODUCTS = products.main_products || [];
+  const PRODUCTS = products?.main_products || [];
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
 
   const handleSelect = (product: any) => {

@@ -16,7 +16,7 @@ export default function MobilePreviewMagazzine() {
   const selectedProductsSource = shopState.cardProductsItems;
   const selectedProducts = [...selectedProductsSource].sort((a, b) => a.default_price.unit_amount - b.default_price.unit_amount);
   const IHaveGifts = selectedProducts.filter(item => item.metadata.group === "unique-gift").length > 0;
-  const standard_shipping_for_gifts = shopState.products.standard_shipping_for_gifts;
+  // const standard_shipping_for_gifts = shopState.products.standard_shipping_for_gifts;
   // const ALL_ITEMS = cartProductsItems;
   // console.log("ALL_ITEMS:", ALL_ITEMS);
 

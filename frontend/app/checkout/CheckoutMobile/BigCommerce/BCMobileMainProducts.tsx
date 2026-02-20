@@ -10,7 +10,7 @@ export default function BCMobileMainProducts() {
 
   // Data from Store
   const products = useSelector((state: RootState) => state.shop.products);
-  const PRODUCTS = products.main_products || [];
+  // const PRODUCTS = products.main_products || [];
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
   const bigCommerceState = useSelector((state: RootState) => state.bigCommerce);
   const bigCommerceProducts = bigCommerceState.products;

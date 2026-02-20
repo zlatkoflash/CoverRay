@@ -26,11 +26,11 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function MainProducts() {
 
   const products = useSelector((state: RootState) => state.shop.products);
-  const PRODUCTS = products.main_products;
-  const UPSELLS = products.frames_products;
-  const ACCESSORIES = products.unique_gifts_products;
+  const PRODUCTS = products?.main_products;
+  const UPSELLS = products?.frames_products;
+  const ACCESSORIES = products?.unique_gifts_products;
   const dispatch = useDispatch();
-  const standard_shipping_for_gifts = products.standard_shipping_for_gifts;
+  const standard_shipping_for_gifts = products?.standard_shipping_for_gifts;
   console.log("standard_shipping_for_gifts inside store:", standard_shipping_for_gifts);
 
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
@@ -49,7 +49,7 @@ export default function MainProducts() {
   };*/
 
 
-  if (standard_shipping_for_gifts.length === 0) {
+  if (standard_shipping_for_gifts?.length === 0) {
     console.log("standard_shipping_for_gifts is empty, it must have values for the gifts products");
     return null;
   }
@@ -63,7 +63,7 @@ export default function MainProducts() {
           <span className="required-badge">Select one or more</span>
         </div>
 
-        {PRODUCTS.map((product) => (
+        {PRODUCTS?.map((product) => (
           <div
             key={product.id}
             className={`product-card ${cartProductsItems.some((item) => item.id === product.id) ? 'selected' : ''}`}
@@ -102,7 +102,7 @@ export default function MainProducts() {
           <span className="save-tag">Complete the Look</span>
         </div>
 
-        {UPSELLS.map((upsell) => (
+        {UPSELLS?.map((upsell) => (
           <div
             key={upsell.id}
             className={`upsell-card ${cartProductsItems.some((item) => item.id === upsell.id) ? 'selected' : ''}`}
@@ -136,7 +136,7 @@ export default function MainProducts() {
         </div>
 
         <div className="accessories-grid">
-          {ACCESSORIES.map((product) => (
+          {ACCESSORIES?.map((product) => (
             <div
               key={product.id}
               className={`accessory-card ${cartProductsItems.some((item) => item.id === product.id) ? 'selected' : ''}`}
@@ -162,7 +162,7 @@ export default function MainProducts() {
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          Accessories ship separately (+${standard_shipping_for_gifts[0].default_price.unit_amount / 100} shipping each)
+          Accessories ship separately (+$6.5 shipping each)
         </div>
       </div>
     </main>

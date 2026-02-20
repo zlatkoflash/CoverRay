@@ -9,7 +9,7 @@ export default function MobileFrameUpsellProduct() {
 
   // 1. Get products and cart from Redux
   const products = useSelector((state: RootState) => state.shop.products);
-  const UPSELLS = products.frames_products || [];
+  const UPSELLS = products?.frames_products || [];
   const cartProductsItems = useSelector((state: RootState) => state.shop.cardProductsItems);
 
   const handleToggleUpsell = (product: any) => {
