@@ -101,9 +101,11 @@ export default function EditorTextSize() {
           </button>
 
         </div>
-        <div className="size-value" id="sizeValue" style={{ textAlign: 'center', marginTop: '5px' }}>
+        {
+          /*<div className="size-value" id="sizeValue" style={{ textAlign: 'center', marginTop: '5px' }}>
           {currentSize}px
-        </div>
+        </div>*/
+        }
       </div>
     </div>
   );

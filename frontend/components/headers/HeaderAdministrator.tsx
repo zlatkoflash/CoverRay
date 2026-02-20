@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase";
 import { LogIn } from "lucide-react";
 import { authActions } from "@/lib/features/auth/authSlice";
 import { IKonvaBaseCanvasItem } from "@/utils/interfaceTemplate";
+import BtnSaveForPaymentPurposesWrap from "@/app/Editor/Template/[template_slug]/BtnSaveForPaymentPurposesWrap";
 
 const BtnSaveForLater = dynamic(
   () => import('./BtnSaveForLater'),
@@ -110,7 +111,10 @@ export default function HeaderAdministrator(
         </div>
         <div className="header-right">
           {
-            isTemplateEditor /*&& items !== undefined && items.length > 0*/ && <BtnSaveForLater />
+            isTemplateEditor /*&& items !== undefined && items.length > 0*/ && <>
+              <BtnSaveForLater />
+              <BtnSaveForPaymentPurposesWrap />
+            </>
           }
           {
             /*<button className="btn btn-primary" id="headerCTA" onClick={() => {

@@ -85,7 +85,8 @@ export default function MobileEditTextSizePanel() {
         borderTopRightRadius: '20px',
         boxShadow: '0 -4px 20px rgba(0,0,0,0.1)',
         transition: 'bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        zIndex: 2000
+        zIndex: 2000,
+        paddingBottom: '3rem'
       }}
     >
       <div style={{ width: '40px', height: '4px', background: '#ddd', borderRadius: '2px', margin: '0 auto 15px' }}></div>
@@ -127,12 +128,15 @@ export default function MobileEditTextSizePanel() {
           <span style={{ fontSize: "24px", color: "#999", fontWeight: "600" }}>A</span>
         </div>
 
-        <div style={{ textAlign: "center", background: '#f8f9ff', padding: '15px', borderRadius: '12px' }}>
+        {
+          /*<div style={{ textAlign: "center", background: '#f8f9ff', padding: '15px', borderRadius: '12px' }}>
           <div style={{ fontSize: "11px", color: "#888", textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Font Size</div>
           <div style={{ fontSize: "32px", fontWeight: "800", color: "#3f51b5" }}>
             {size}<span style={{ fontSize: '14px', fontWeight: '400', marginLeft: '2px' }}>px</span>
           </div>
-        </div>
+        </div>*/
+        }
+
       </div>
     </div>
   );
