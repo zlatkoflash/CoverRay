@@ -303,13 +303,13 @@ export async function BC_GetOrCreateUserByEmail(email: string, firstName: string
       body: JSON.stringify([
         {
           email: email,
-          first_name: firstName,
-          last_name: lastName,
+          first_name: firstName || "Guest",
+          last_name: lastName || "User",
           authentication: {
             // Since a password is required via API, we set a temporary one
             // and force a reset so the user can choose their own via email.
             // new_password: Math.random().toString(36).slice(-12) + "!",
-            new_password: "derkoskiA1#",
+            new_password: "ComplexPassword123!",
             force_password_reset: true
           }
         }
