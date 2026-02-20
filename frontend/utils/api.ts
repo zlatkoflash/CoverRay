@@ -53,7 +53,10 @@ export const getApiData = async <T = any>(
         // this auth is for the REST-API, the REST-API must be accesible only from next.js
         // "Authorization": `Basic ${base64Credentials}`
       },
+
+
       // This is the magic part for Vercel/Next.js caching
+      // link to clear the cache: https://cover-ray.vercel.app/api/cache-clear?token=derkoskiA1&tag=templates
       next: {
         revalidate: false, // Cache for 1 hour (in seconds)
         tags: ['templates'] // Useful for manual cache clearing later
