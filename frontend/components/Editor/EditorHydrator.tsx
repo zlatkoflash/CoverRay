@@ -7,14 +7,24 @@ import {
 import { AppDispatch, RootState } from "@/lib/store";
 import { POSTER_H, POSTER_W } from "@/utils/editor";
 import { LS_GetTemplateFromIndexDB } from "@/utils/editor-local-storage";
-import { ITemplate } from "@/utils/interfaceDatabase";
+import { ITemplate, ITemplateDraftClient } from "@/utils/interfaceDatabase";
 import { IKonvaTemplate } from "@/utils/interfaceTemplate";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function EditorHydrator(
-  { template }: { template: ITemplate }
+  { dataForHydration }: {
+    dataForHydration: {
+      ok: boolean;
+      template: ITemplate;
+      // templates_drafts: ITemplateDraftClient[];
+    }
+  }
 ) {
+
+  const { template,
+    // templates_drafts 
+  } = dataForHydration;
 
   const dispatch = useDispatch<AppDispatch>();
   const isHydrated = useRef(false);
@@ -37,6 +47,7 @@ export default function EditorHydrator(
     console.log("SavedTemplate:", SavedTemplate);
     console.log("template.template_data:", template.template_data);
 
+    // dispatch(templatesActions.AddClientsDraft(templates_drafts));
     dispatch(EditorActions.loadEditorImageSilent());
     if (SavedTemplate !== null) {
       // if we have saved template in localhost we load it

@@ -90,6 +90,10 @@ export const templatesSlice = createSlice({
       state.clientDrafts.unshift(action.payload);
     },
 
+    AddClientsDraft: (state, action: PayloadAction<ITemplateDraftClient[]>) => {
+      state.clientDrafts = action.payload;
+    },
+
     /**
      * In administrator part we have dropdown draft, live-template and versions ids. Selecting those will load teh konva data for the template for the next manipulations
      */
@@ -124,7 +128,14 @@ export const templatesSlice = createSlice({
       })
       .addCase(fetchTemplates.rejected, (state, action) => {
         console.error('Failed to fetch templates:', action.error);
+      })
+      .addCase(fetchClientDrafts.fulfilled, (state, action) => {
+        state.clientDrafts = action.payload;
+      })
+      .addCase(fetchClientDrafts.rejected, (state, action) => {
+        console.error('Failed to fetch client drafts:', action.error);
       });
+
   },
 });
 
@@ -180,6 +191,42 @@ export const fetchTemplates = createAsyncThunk(
     console.log("templates loaded for category:", categoryId, data.templates);
     // return [];
     return data.templates;
+
+  }
+);
+
+
+
+
+export const fetchClientDrafts = createAsyncThunk(
+  'templates/fetchClientDrafts',
+  async (
+    {
+      template_id,
+      //fAfterFinish
+      // user_id
+    }: {
+      template_id: string
+      // user_id: string,
+      // fAfterFinish?: () => void
+    }
+    // Ray is forcing with labels
+    // { categoryLabel, subcategoryLabel }: { categoryLabel: string, subcategoryLabel: string }
+  ) => {
+    const data = await getApiData<{
+      ok: boolean;
+      // templates: ITemplate[];
+      clientDrafts: ITemplateDraftClient[];
+    }>("/administrator-client/get-template-drafts", "POST", {
+      template_id,
+      // user_id
+    }, "authorize", "application/json");
+    // return [];
+    console.log("clientDrafts loaded for template:", template_id, data);
+    /*if(fAfterFinish!==undefined){
+      fAfterFinish();
+    }*/
+    return data.clientDrafts;
 
   }
 );

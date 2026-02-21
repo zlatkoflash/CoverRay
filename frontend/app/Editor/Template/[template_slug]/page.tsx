@@ -5,7 +5,7 @@ import EditorSidebar from "@/components/Sidebars/EditorSidebar/Index";
 // import BtnSaveForPaymentPurposes from "@/components/SpecialButtons/BtnSaveForPaymentPurposes";
 //  import { allEditorFontVariables } from "@/lib/fonts";
 import { getApiData } from "@/utils/api";
-import { ITemplate } from "@/utils/interfaceDatabase";
+import { ITemplate, ITemplateDraftClient } from "@/utils/interfaceDatabase";
 import dynamic from "next/dynamic";
 import BtnSaveForPaymentPurposesWrap from "./BtnSaveForPaymentPurposesWrap";
 import HeaderWrap from "@/components/headers/HeadeWrap";
@@ -26,19 +26,21 @@ export default async function TemplatePageEditorBySlug({ params }: { params: Pro
 
   console.log("params.template_slug:", template_slug);
 
-  const template = await getApiData<{
+  const dataForHydration = await getApiData<{
     ok: boolean;
     template: ITemplate;
+    // templates_draft: ITemplateDraftClient[];
   }>("/templates/get-template-by-slug", "POST", { template_slug: template_slug }, "not-authorize", "application/json");
 
-  console.log("template:", template);
+  console.log("dataForHydration:", dataForHydration);
 
 
   return (
     <>
       {/* 1. The silent worker starts loading data in the background */}
       <EditorHydrator
-        template={template.template}
+        // template={template.template}
+        dataForHydration={dataForHydration}
       />
 
       {

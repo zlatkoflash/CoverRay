@@ -1,20 +1,20 @@
 import ZSelectDropdown from "@/components/inputs/ZSelectDropdown";
 import { editorSlice } from "@/lib/features/editor/editorSlice";
-import { RootState } from "@/lib/store";
-import { useState } from "react";
+import { fetchClientDrafts, templatesActions } from "@/lib/features/templates/templatesSlice";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DropdownWithClientDrafts() {
 
   const [selectedDraft, setSelectedDraft] = useState<string>("");
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const templatesState = useSelector((state: RootState) => state.template);
   const clientDrafts = templatesState.clientDrafts;
-  if (clientDrafts.length === 0) {
-    return null;
-  }
 
-  const dispatch = useDispatch();
+
 
   const options = clientDrafts.map((draft) => ({
     value: draft.id,
@@ -25,6 +25,36 @@ export default function DropdownWithClientDrafts() {
     label: "Select a draft",
   });
 
+  useEffect(() => {
+    console.log("clientDrafts", clientDrafts);
+    if (clientDrafts.length > 0) {
+      setSelectedDraft(clientDrafts[0].id);
+    }
+  }, [clientDrafts]);
+
+  useEffect(() => {
+    console.log("selectedDraft", selectedDraft);
+
+    /*dispatch(templatesActions.fetchClientDrafts({
+      template_id: templatesState.selectedTemplate?.id || "",
+      // user_id: ""
+    }));*/
+
+    if (templatesState.selectedTemplate === null) return;
+
+    dispatch(fetchClientDrafts(
+      {
+        template_id: templatesState.selectedTemplate?.id || ""
+      }
+    )).unwrap().then((data) => {
+      setSelectedDraft("");
+    });
+
+  }, [templatesState.selectedTemplate]);
+
+  if (clientDrafts.length === 0) {
+    return null;
+  }
   return (
     <>
       <ZSelectDropdown

@@ -58,6 +58,7 @@ export default function Header(
       console.error("Error logging out:", error);
     }
     router.refresh();
+    window.location.reload();
   }
 
   return (
