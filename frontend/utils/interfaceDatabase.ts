@@ -51,6 +51,8 @@ export interface ITemplate {
   catalog_image: string;
   template_data_fixed: Record<string, any>; // maps to jsonb
   template_data_old: Record<string, any>; // maps to jsonb
+
+  is_featured: boolean;
 }
 
 

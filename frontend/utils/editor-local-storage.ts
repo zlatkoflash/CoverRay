@@ -1,4 +1,4 @@
-import { set, get } from "idb-keyval";
+import { set, get, del } from "idb-keyval";
 import { ITemplate } from "./interfaceDatabase";
 import { IEditedTemplateForSave } from "@/lib/features/editor/editorSlice";
 
@@ -52,6 +52,24 @@ export const LS_SaveImageIntoIndexDB = async (file: File | Blob, template_slug: 
     throw error;
   }
 };
+/**
+ * Deletes an image from IndexedDB using its unique key
+ * @param key - The reference key returned during the save process
+ */
+export const LS_DeleteImageFromIndexDB = async (template_slug: string = ""): Promise<void> => {
+  try {
+    // We check if the key exists before attempting deletion
+    // idb-keyval's del() is safe, but logging helps for debugging
+    const finalIndexRefForIndexDB = `${INDEX_DB_IMAGE_REF}${template_slug !== "" ? `_${template_slug}` : ""}`;
+    await del(finalIndexRefForIndexDB);
+
+    console.log(`Image with key: ${finalIndexRefForIndexDB} has been deleted from IndexedDB.`);
+  } catch (error) {
+    console.error("Error deleting image from idb-keyval:", error);
+    throw error;
+  }
+};
+
 
 /**
  * Retrieves the stored image and creates a temporary URL
@@ -74,6 +92,20 @@ export const LS_GetImageURL = async (template_slug: string = ""): Promise<string
     return null;
   }
 };
+
+/**
+ * Deletes an image from IndexedDB using its reference key
+ * @param key - The finalIndexRefForIndexDB string returned by your save function
+ */
+/*export const LS_DeleteImageFromIndexDB = async (key: string): Promise<void> => {
+  try {
+    await del(key);
+    console.log(`Image with key ${key} deleted successfully.`);
+  } catch (error) {
+    console.error("Error deleting image from idb-keyval:", error);
+    throw error;
+  }
+};*/
 
 
 /**

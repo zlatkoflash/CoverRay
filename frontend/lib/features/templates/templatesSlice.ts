@@ -9,6 +9,7 @@ interface ITemplateState {
   selectedSubCategory: ITemplateCategoryWithCount | null;
   // selectedCategory: number;
   templates: ITemplate[];
+  featured_templates: ITemplate[];
   selectedTemplate: ITemplate | null;
 
   ContinueButttonDisabled: boolean;
@@ -38,6 +39,8 @@ const initialState: ITemplateState = {
   isEditorInitialHydrated: false,
 
   templates: [],
+  featured_templates: [],
+
   selectedTemplate: null,
   ContinueButttonDisabled: false,
   isDraft: false,
@@ -93,7 +96,9 @@ export const templatesSlice = createSlice({
         state.categories = action.payload.categories;
         state.subcategories = action.payload.subcategories;
         state.templates = action.payload.templates;
-        state.selectedCategory = action.payload.categories[0];
+        state.featured_templates = action.payload.featured_templates;
+        // state.selectedCategory = action.payload.categories[0];
+        state.selectedCategory = null;
         state.selectedSubCategory = null;
       })
       .addCase(fetchSubcategories.fulfilled, (state, action) => {
@@ -124,6 +129,7 @@ export const fetchCategories = createAsyncThunk(
       categories: ITemplateCategoryWithCount[];
       subcategories: ITemplateCategoryWithCount[];
       templates: ITemplate[];
+      featured_templates: ITemplate[];
     }>("/templates/get-categories", "POST", {}, "not-authorize", "application/json");
 
     console.log("data for templates/get-categories:", data);

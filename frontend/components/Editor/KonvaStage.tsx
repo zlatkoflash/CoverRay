@@ -131,6 +131,7 @@ export default function KonvaStage({
   const konvaData = stateEditor.konvaData;
   // const templateDB = stateEditor.templ;
   const coverURL = stateEditor.imageUrl;
+  console.log("stateEditor.imageUrl:", stateEditor.imageUrl);
   const status = stateEditor.status;
   const selectedKonvaItem = stateEditor.selectedKonvaItem;
   // const items = stateEditor.items;

@@ -2,6 +2,7 @@
 
 import { fetchSubcategories, fetchTemplates, templatesActions } from '@/lib/features/templates/templatesSlice';
 import { AppDispatch, RootState } from '@/lib/store';
+import { LS_DeleteImageFromIndexDB } from '@/utils/editor-local-storage';
 import { ITemplateCategoryWithCount } from '@/utils/interfaceDatabase';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,6 +53,15 @@ export default function TemplateSelection() {
 
   console.log("selectedCategory:", selectedCategory);
 
+  const templatesForTheGrid = () => {
+    if (selectedCategory === null) {
+      return templatesState.featured_templates;
+    }
+    else {
+      return templatesState.templates;
+    }
+  }
+
   return (
     <main className="selection-main">
 
@@ -91,6 +101,18 @@ export default function TemplateSelection() {
 
       <div className="editor-landing-categories">
         <div className="editor-landing-tabs">
+          <button
+            key={0}
+            className={`editor-landing-tab ${selectedCategory === null
+              ? "active" : ""}`}
+            onClick={() => {
+              dispatch(templatesActions.setSelectedCategory(null));
+              dispatch(fetchSubcategories(0));
+              setSearchQ("");
+            }}
+          >
+            Featured Magazines
+          </button>
           {categories.map((category) => (
             <button
               key={category.id}
@@ -113,58 +135,66 @@ export default function TemplateSelection() {
           ))}
         </div>
 
-        <div className="category-row">
-          <span className="category-label">{selectedCategory?.label || "Collections"}</span>
-          <div className="category-chips">
-            <button
-              className={`category-chip ${selectedSubCategory === null ? "active" : ""}`}
-              onClick={() => {
-                // handleCategoryClick(0)
-                dispatch(templatesActions.setSelectedSubCategory(null));
-                dispatch(fetchTemplates(
-                  selectedCategory !== null ? selectedCategory?.id : 0
-                ));
-                setSearchQ("");
-              }}
-            >
-              All
-            </button>
-            {
-              // (grouped.get(selectedParent) || []).map((category) => (
-              subcategories.map((subCategory) => (
-                <button
-                  key={`category-${subCategory.id}`}
-                  className={`category-chip ${selectedSubCategory !== null && selectedSubCategory.id === subCategory.id
-                    ? "active" : ""}`}
-                  onClick={() => {
-                    console.log("subCategory.id:", subCategory.id);
-                    // handleCategoryClick(category.id)
-                    dispatch(templatesActions.setSelectedSubCategory(subCategory));
-                    dispatch(fetchTemplates(
-                      subCategory.id
-                    ));
-                    setSearchQ("");
-                  }}
-                >
-                  {subCategory.label ?? "Untitled"}
-                </button>
-              ))}
+        {
+          selectedCategory !== null &&
+          <div className="category-row">
+            <span className="category-label">{selectedCategory?.label || "Collections"}</span>
+            <div className="category-chips">
+              <button
+                className={`category-chip ${selectedSubCategory === null ? "active" : ""}`}
+                onClick={() => {
+                  // handleCategoryClick(0)
+                  dispatch(templatesActions.setSelectedSubCategory(null));
+                  dispatch(fetchTemplates(
+                    selectedCategory !== null ? selectedCategory?.id : 0
+                  ));
+                  setSearchQ("");
+                }}
+              >
+                All
+              </button>
+              {
+                // (grouped.get(selectedParent) || []).map((category) => (
+                subcategories.map((subCategory) => (
+                  <button
+                    key={`category-${subCategory.id}`}
+                    className={`category-chip ${selectedSubCategory !== null && selectedSubCategory.id === subCategory.id
+                      ? "active" : ""}`}
+                    onClick={() => {
+                      console.log("subCategory.id:", subCategory.id);
+                      // handleCategoryClick(category.id)
+                      dispatch(templatesActions.setSelectedSubCategory(subCategory));
+                      dispatch(fetchTemplates(
+                        subCategory.id
+                      ));
+                      setSearchQ("");
+                    }}
+                  >
+                    {subCategory.label ?? "Untitled"}
+                  </button>
+                ))}
+            </div>
           </div>
-        </div>
+        }
       </div>
 
 
       <div className="magazines-grid" id="magazinesGrid">
         {/* 3. Map through the array */}
-        {templates.filter((template) => template.name.toLowerCase().includes(searchQ.toLowerCase())).map((template) => (
+        {templatesForTheGrid().filter((template) => template.name.toLowerCase().includes(searchQ.toLowerCase())).map((template) => (
           <Link
             href={`/Editor/Template/${template.slug}`}
             key={template.id}
             className={`magazine-card ${selectedTemplate?.id === template.id ? 'selected-' : ''
               }`}
-            onClick={() => {
+            onClick={async (e) => {
+              //e.preventDefault();
               // handleSelect(template.id, template.name)
               // dispatch(templatesActions.setSelectedTemplate(template));
+              //  await LS_DeleteImageFromIndexDB(template.slug);
+              // delete the basic image url when open new template
+              LS_DeleteImageFromIndexDB("");
+
             }}
             style={{ position: 'relative', cursor: 'pointer' }}
           >
