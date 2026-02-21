@@ -97,6 +97,25 @@ export default function Header(
               <div className="nav-step-number">3</div>
               <span>Checkout</span>
             </Link>
+
+
+            <Link
+              style={{
+                pointerEvents: "none"
+              }}
+              href="/" className={`nav-step ${isCheckout ? "active" : ""}`} onClick={() => {
+                // console.log("goToScreen(1):");
+              }}>
+              <div className="nav-step-number">3</div>
+              <span>
+                Selected template:
+                {
+                  selectedTemplate !== null ? selectedTemplate.name : "not-selected-template-yet"
+                }
+
+              </span>
+            </Link>
+
           </nav>
         </div>
         <div className="header-right">

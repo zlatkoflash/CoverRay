@@ -1,5 +1,6 @@
 "use client";
 
+import { EditorActions } from '@/lib/features/editor/editorSlice';
 import { fetchSubcategories, fetchTemplates, templatesActions } from '@/lib/features/templates/templatesSlice';
 import { AppDispatch, RootState } from '@/lib/store';
 import { LS_DeleteImageFromIndexDB } from '@/utils/editor-local-storage';
@@ -193,7 +194,10 @@ export default function TemplateSelection() {
               // dispatch(templatesActions.setSelectedTemplate(template));
               //  await LS_DeleteImageFromIndexDB(template.slug);
               // delete the basic image url when open new template
-              LS_DeleteImageFromIndexDB("");
+              if (selectedTemplate !== null && selectedTemplate.id !== template.id) {
+                LS_DeleteImageFromIndexDB("");
+                dispatch(EditorActions.resetEditor());
+              }
 
             }}
             style={{ position: 'relative', cursor: 'pointer' }}

@@ -4,13 +4,13 @@ import * as EditorActions from "@/lib/features/editor/editorSlice";
 import {
   templatesActions
 } from "@/lib/features/templates/templatesSlice";
-import { AppDispatch } from "@/lib/store";
+import { AppDispatch, RootState } from "@/lib/store";
 import { POSTER_H, POSTER_W } from "@/utils/editor";
 import { LS_GetTemplateFromIndexDB } from "@/utils/editor-local-storage";
 import { ITemplate } from "@/utils/interfaceDatabase";
 import { IKonvaTemplate } from "@/utils/interfaceTemplate";
 import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function EditorHydrator(
   { template }: { template: ITemplate }
@@ -18,6 +18,9 @@ export default function EditorHydrator(
 
   const dispatch = useDispatch<AppDispatch>();
   const isHydrated = useRef(false);
+  const stateTemplate = useSelector((state: RootState) => state.template);
+  const editorState = useSelector((state: RootState) => state.editor);
+
 
   console.log("Template for hydration:", template);
 
@@ -75,6 +78,11 @@ export default function EditorHydrator(
 
   useEffect(() => {
 
+    if (stateTemplate.selectedTemplate !== null && stateTemplate.selectedTemplate.slug === template.slug) {
+      // router.push("/");
+      console.log("Editor state we have:", editorState);
+      return;
+    }
     ____LoadAndSetTemplate();
 
   }, []);
@@ -82,8 +90,9 @@ export default function EditorHydrator(
   useEffect(() => {
     // console.log("EditorHydrator :: template", template);
     return () => {
-      console.log("EditorHydrator :: template", template);
-      dispatch(EditorActions.resetEditor());
+      // console.log("EditorHydrator :: template", template);
+      // this should happen when we select new template
+      // dispatch(EditorActions.resetEditor());
     }
   }, [dispatch]);
 

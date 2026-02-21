@@ -158,3 +158,14 @@ export interface ITemplateVersion {
   created_by: string; // UUID of the user who created this version
   template_id: string; // The parent template ID
 }
+
+
+
+export interface ITemplateDraftClient {
+  id: string;
+  updated_at: string; // ISO Timestamp
+  template_data: any; // Or a specific interface for your Konva/Editor JSON
+  updated_by: string; // UUID
+  template_id: string; // UUID (Foreign Key to live template)
+  // profile_id: string;
+}

@@ -25,14 +25,16 @@ export default async function CheckoutPage() {
 
   return <>
 
-    <HydrateTheShop shopState={{
+    {
+      /*<HydrateTheShop shopState={{
       // products: products.products,
       cardProductsItems: [],
       selectedStandardShipForGifts: null,
       showModalCardPayment: false,
       paymentProcessingStatus: "idle",
       paymentProcessingMessage: "",
-    }} />
+    }} />*/
+    }
 
     <HydrateTheBigCommerce />
 
