@@ -1,5 +1,5 @@
 import { getApiData } from "@/utils/api";
-import { ITemplate, ITemplateCategory, ITemplateCategoryWithCount, ITemplateVersion } from "@/utils/interfaceDatabase";
+import { ITemplate, ITemplateCategory, ITemplateCategoryWithCount, ITemplateDraftClient, ITemplateVersion } from "@/utils/interfaceDatabase";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ITemplateState {
@@ -28,6 +28,8 @@ interface ITemplateState {
    */
   isEditorInitialHydrated: boolean;
 
+  clientDrafts: ITemplateDraftClient[];
+
 }
 
 const initialState: ITemplateState = {
@@ -45,7 +47,8 @@ const initialState: ITemplateState = {
   ContinueButttonDisabled: false,
   isDraft: false,
   versions: [],
-  selectedVersion: "live"
+  selectedVersion: "live",
+  clientDrafts: []
 };
 
 export const templatesSlice = createSlice({
@@ -81,6 +84,10 @@ export const templatesSlice = createSlice({
 
     setIsEditorInitialHydrated: (state, action: PayloadAction<boolean>) => {
       state.isEditorInitialHydrated = action.payload;
+    },
+
+    addClientDraft: (state, action: PayloadAction<ITemplateDraftClient>) => {
+      state.clientDrafts.unshift(action.payload);
     },
 
     /**

@@ -14,6 +14,7 @@ import { LogIn } from "lucide-react";
 import { authActions } from "@/lib/features/auth/authSlice";
 import BtnSaveForPaymentPurposesWrap from "@/app/Editor/Template/[template_slug]/BtnSaveForPaymentPurposesWrap";
 import BtnSaveForLaterClient from "./BtnSaveForLaterClient";
+import DropdownWithClientDrafts from "./BntSaveForLaterTools/DropdownWithClientDrafts";
 
 const BtnSaveForLater = dynamic(
   () => import('./BtnSaveForLater'),
@@ -31,6 +32,7 @@ export default function Header(
 
   const dispatch = useDispatch();
   const authState = useSelector((state: RootState) => state.auth);
+  const user = authState.user;
 
   const selectedTemplate = useSelector((state: RootState) => state.template.selectedTemplate);
   // const continueButtonDisabled = useSelector((state: RootState) => state.template.ContinueButttonDisabled);
@@ -99,7 +101,8 @@ export default function Header(
             </Link>
 
 
-            <Link
+            {
+              /*<Link
               style={{
                 pointerEvents: "none"
               }}
@@ -114,7 +117,8 @@ export default function Header(
                 }
 
               </span>
-            </Link>
+            </Link>*/
+            }
 
           </nav>
         </div>
@@ -129,7 +133,13 @@ export default function Header(
           }
 
           {
-            isTemplateEditor && <BtnSaveForLaterClient />
+            isTemplateEditor && <>
+              {
+                // this component will hold the list od the client drafts
+                user !== null && <DropdownWithClientDrafts />
+              }
+              <BtnSaveForLaterClient />
+            </>
           }
 
           {

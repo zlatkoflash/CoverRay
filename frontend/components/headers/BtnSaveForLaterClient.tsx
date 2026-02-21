@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useState } from "react";
 import { IKonvaTemplate } from "@/utils/interfaceTemplate";
-import { ITemplate } from "@/utils/interfaceDatabase";
+import { ITemplate, ITemplateDraftClient } from "@/utils/interfaceDatabase";
 import { authActions } from "@/lib/features/auth/authSlice";
 import { getApiData } from "@/utils/api";
+import { templatesActions } from "@/lib/features/templates/templatesSlice";
 
 export default function BtnSaveForLaterClient() {
 
@@ -36,14 +37,22 @@ export default function BtnSaveForLaterClient() {
     await LS_SaveTemplateIntoIndexDB(detailsForSaving);
     setIsSaved(true);*/
 
-    const results = await getApiData("/administrator-client/create-new-draft", "POST", {
+    const payout = {
       template_id: template?.id,
       template_data: stateEditor.konvaData,
       // coverImageURL: imageCoverURL,
-    }, "authorize", "application/json");
+    };
+    console.log("payout:", payout);
+    const results = await getApiData<{
+      ok: boolean,
+      last_draft: ITemplateDraftClient
+    }>("/administrator-client/create-new-draft", "POST", payout, "authorize", "application/json");
 
     // CONTINUE FROM HERE
 
+    if (results.ok === true) {
+      dispatch(templatesActions.addClientDraft(results.last_draft));
+    }
     console.log("results:", results);
 
 
