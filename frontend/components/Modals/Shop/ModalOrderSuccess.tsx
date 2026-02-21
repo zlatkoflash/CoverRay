@@ -22,8 +22,9 @@ export default function ModalOrderSuccess() {
     dispatch(shopActions.clearCardProductsItems());
 
     // Refresh ensures any server-side data is synced
-    router.refresh();
-    router.push(path);
+    // router.refresh();
+    // router.push(path);
+    window.location.href = "https://preproduction-puce.vercel.app/";
   };
 
   return (
