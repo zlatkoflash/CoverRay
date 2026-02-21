@@ -17,13 +17,16 @@ export default function ModalOrderSuccess() {
    * Clears all session data and redirects the user.
    */
   const handleFinalize = (path: string) => {
-    dispatch(shopActions.setPaymentProcessingStatus("idle"));
+
+    console.log("When it will be part of the website, the editor should have the commented code below");
+
+    /*dispatch(shopActions.setPaymentProcessingStatus("idle"));
     dispatch(shopActions.setShowModalCardPayment(false));
     dispatch(shopActions.clearCardProductsItems());
 
     // Refresh ensures any server-side data is synced
-    // router.refresh();
-    // router.push(path);
+    router.refresh();
+    router.push("/");*/
     window.location.href = "https://preproduction-puce.vercel.app/";
   };
 
