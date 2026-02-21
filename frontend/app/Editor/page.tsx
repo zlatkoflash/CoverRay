@@ -17,9 +17,10 @@ export default function Editor() {
   return (
     <>
       {/* 1. The silent worker starts loading data in the background */}
-      <EditorHydrator template={{
-        template_data: exampleJSONTemplate
-      } as any} />
+      <EditorHydrator dataForHydration={{
+        template: exampleJSONTemplate as any,
+        ok: true
+      }} />
 
       <Header />
 
